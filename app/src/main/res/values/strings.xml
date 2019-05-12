@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">FacturaLetras</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="password">Contraseña</string>
+    <string name="usuario">Usuario</string>
+    <string name="letras">Letras</string>
+    <string name="nombre">Nombre</string>
+    <string name="agregarletra">Agregar Letra</string>
+    <string name="monto">Monto</string>
+    <string name="registrar">Registrar</string>
+    <string name="factura">Factura</string>
+    <string name="agregarfactura">Agregar Factura</string>
+    <string name="fecha">Fecha</string>
+    <string name="numeroletra">Numero de Letras</string>
+    <string name="confirmar">Escriba CONFIRMAR para confirmar el pago</string>
+    <string name="id">DNI o RUC</string>
+    <string name="pagar">Pagar</string>
+    <string name="editar">Editar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="descargar">Descargar</string>
+</resources>

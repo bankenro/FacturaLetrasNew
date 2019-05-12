@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".Fragments.MenuFragment">
+    <ImageButton
+            android:src="@drawable/addfactura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/addfactura" android:background="#00FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/facturas"
+            tools:visibility="gone"/>
+    <ImageButton
+            android:src="@drawable/facturas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/facturas" android:background="#00FFFFFF"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/reportes" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/addfactura"/>
+    <ImageButton
+            android:src="@drawable/reportes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/reportes" android:background="#00FFFFFF"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/facturas"
+            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/registro" tools:visibility="gone"/>
+    <ImageButton
+            android:src="@drawable/registro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/registro" android:background="#00FFFFFF"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/reportes"
+            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/salir" tools:visibility="gone"/>
+    <ImageButton
+            android:src="@drawable/salir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/salir" android:background="#00FFFFFF"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/registro"
+            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+</android.support.constraint.ConstraintLayout>
