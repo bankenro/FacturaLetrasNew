@@ -40,7 +40,7 @@ class LetrasAdaptador(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(letrasList[position])
         val tipou = preferences?.getString("idt", "")
-        if (Objects.equals(letrasList[position].estado, 1)) {
+        if (Objects.equals(letrasList[position].estado, "DEBIDO")) {
             holder.estado.setTextColor(ContextCompat.getColor(context, R.color.rojo))
         } else {
             holder.estado.setTextColor(ContextCompat.getColor(context, R.color.verde))
@@ -63,6 +63,7 @@ class LetrasAdaptador(
                             bundle.putString("id", factura)
                             bundle.putString("nombre", letrasList[position].letra)
                             bundle.putString("monto", letrasList[position].monto)
+                            bundle.putString("moneda",letrasList[position].moneda)
                             dialog.arguments = bundle
                             dialog.isCancelable = false
                             dialog.show(ft, "Actualizar Letra")
@@ -74,6 +75,7 @@ class LetrasAdaptador(
                             bundle.putString("id", factura)
                             bundle.putString("nombre", letrasList[position].letra)
                             bundle.putString("monto", letrasList[position].monto)
+                            bundle.putString("moneda",letrasList[position].moneda)
                             dialog.arguments = bundle
                             dialog.isCancelable = false
                             dialog.show(ft, "Pagar Letra")
@@ -87,12 +89,13 @@ class LetrasAdaptador(
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val letra = v.findViewById(R.id.nombre) as TextView
+        val letra = v.findViewById(R.id.letra) as TextView
         val factura = v.findViewById(R.id.factura) as TextView
         val empresa = v.findViewById(R.id.empresa) as TextView
         val fecha = v.findViewById(R.id.fecha) as TextView
         val monto = v.findViewById(R.id.monto) as TextView
         val estado = v.findViewById(R.id.estado) as TextView
+        val moneda = v.findViewById(R.id.moneda) as TextView
         val menu = v.findViewById(R.id.menu) as ImageButton
         fun bindItems(letras: Letras) {
             letra.text = letras.letra
@@ -101,6 +104,7 @@ class LetrasAdaptador(
             fecha.text = letras.fecha
             monto.text = letras.monto
             estado.text = letras.estado
+            moneda.text = letras.moneda
         }
 
     }

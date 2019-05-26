@@ -8,4 +8,6 @@ class Facturas(
     val debidos: Int,
     val pagado: String,
     val debido: String,
-    val numero: Int)
+    val numero: Int,
+    val banco: String,
+    val moneda: String)

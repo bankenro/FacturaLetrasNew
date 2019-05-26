@@ -68,13 +68,15 @@ class FacturasFragment : Fragment() {
                             val objectArtist = array.getJSONObject(i)
                             val facturas = Facturas(
                                 objectArtist.getString("factura"),
-                                objectArtist.getString("nombre"),
+                                objectArtist.getString("empresa"),
                                 objectArtist.getString("monto"),
                                 objectArtist.getInt("pagados"),
                                 objectArtist.getInt("debidos"),
                                 objectArtist.getString("pagado"),
                                 objectArtist.getString("debido"),
-                                objectArtist.getInt("numero")
+                                objectArtist.getInt("numero"),
+                                objectArtist.getString("banco"),
+                                objectArtist.getString("moneda")
                             )
                             facturasList!!.add(facturas)
                         }

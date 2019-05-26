@@ -28,7 +28,8 @@ class PagoLetrasDF : DialogFragment(), View.OnClickListener {
     private var confirmar: EditText? = null
     private var registrar: Button? = null
     private var cancelar: Button? = null
-    private var factura: String?=null
+    private var factura: String? = null
+    private var moneda: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,13 +44,15 @@ class PagoLetrasDF : DialogFragment(), View.OnClickListener {
         imagen = view.findViewById(R.id.imagen)
         nombre = view.findViewById(R.id.nombre)
         monto = view.findViewById(R.id.monto)
+        moneda = view.findViewById(R.id.moneda)
         confirmar = view.findViewById(R.id.confirmar)
         registrar = view.findViewById(R.id.registrar)
         cancelar = view.findViewById(R.id.cancelar)
-        if (arguments!=null){
+        if (arguments != null) {
             factura = arguments?.get("id").toString()
             nombre?.text = arguments?.get("nombre").toString()
             monto?.text = arguments?.get("monto").toString()
+            moneda?.text = arguments?.get("moneda").toString()
             registrar?.setOnClickListener(this)
         }
         cancelar?.setOnClickListener(this)
@@ -77,7 +80,7 @@ class PagoLetrasDF : DialogFragment(), View.OnClickListener {
         if (Objects.equals(confirmarStr, "CONFIRMAR")) {
             Registrar()
         } else {
-            Toast.makeText(activity,"Porfavor escriba CONFIRMAR",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Porfavor escriba CONFIRMAR", Toast.LENGTH_SHORT).show()
         }
     }
 

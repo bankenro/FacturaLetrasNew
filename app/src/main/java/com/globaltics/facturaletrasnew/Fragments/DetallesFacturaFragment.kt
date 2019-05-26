@@ -40,7 +40,7 @@ class DetallesFacturaFragment : Fragment() {
     private var factura: TextView? = null
     private var nombre: TextView? = null
     private var pagados: TextView? = null
-    private var debido: TextView? = null
+    private var debidos: TextView? = null
     private var letras: RecyclerView? = null
     private var letrasList: MutableList<Letras>? = null
 
@@ -55,7 +55,7 @@ class DetallesFacturaFragment : Fragment() {
         factura = view.findViewById(R.id.factura)
         nombre = view.findViewById(R.id.nombre)
         pagados = view.findViewById(R.id.pagados)
-        debido = view.findViewById(R.id.debidos)
+        debidos = view.findViewById(R.id.debidos)
         letras = view.findViewById(R.id.letras)
         letrasList = ArrayList()
         letras!!.layoutManager = LinearLayoutManager(activity)
@@ -63,9 +63,9 @@ class DetallesFacturaFragment : Fragment() {
 
         if (arguments != null) {
             factura?.text = arguments?.get("factura").toString()
-            nombre?.text = arguments?.get("nombre").toString()
+            nombre?.text = arguments?.get("empresa").toString()
             pagados?.text = arguments?.get("pagados").toString()
-            debido?.text = arguments?.get("debido").toString()
+            debidos?.text = arguments?.get("debidos").toString()
             LlenarLetras()
         }
 
@@ -86,25 +86,26 @@ class DetallesFacturaFragment : Fragment() {
                         for (i in 0 until array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val letras = Letras(
-                                objectArtist.getString("nombre"),
+                                objectArtist.getString("letra"),
                                 objectArtist.getString("factura"),
                                 objectArtist.getString("empresa"),
                                 objectArtist.getString("monto"),
                                 objectArtist.getString("fecha"),
-                                objectArtist.getString("estado")
+                                objectArtist.getString("estado"),
+                                objectArtist.getString("moneda")
                             )
                             letrasList!!.add(letras)
                         }
-                        try {
+                        //try {
                             val adapter =
                                 LetrasAdaptador(
                                     (letrasList as java.util.ArrayList<Letras>?)!!,
                                     this.activity!!, this, factura?.text.toString()
                                 )
-                            letras!!.adapter = adapter
-                        } catch (e: Exception) {
+                            letras?.adapter = adapter
+                        /*} catch (e: Exception) {
                             e.printStackTrace()
-                        }
+                        }*/
                     } else {
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
                     }

@@ -14,11 +14,25 @@
     <string name="factura">Factura</string>
     <string name="agregarfactura">Agregar Factura</string>
     <string name="fecha">Fecha</string>
-    <string name="numeroletra">Numero de Letras</string>
+    <string name="numeroletra">N° de Letras</string>
     <string name="confirmar">Escriba CONFIRMAR para confirmar el pago</string>
     <string name="id">DNI o RUC</string>
     <string name="pagar">Pagar</string>
     <string name="editar">Editar</string>
     <string name="cancelar">Cancelar</string>
     <string name="descargar">Descargar</string>
+    <string name="banco">Banco:</string>
+    <string name="moneda">Moneda:</string>
+    <string name="proveedor">Proveedor:</string>
+    <string name="letra">Letra</string>
+    <string name="telefono">Telefono</string>
+    <string name="empresa">Empresa</string>
+    <string name="estado">Estado</string>
+    <string name="moneda0">Moneda</string>
+    <string name="pagados">Pagados</string>
+    <string name="debidos">Debidos</string>
+    <string name="pagado">Pagado</string>
+    <string name="debido">Debido</string>
+    <string name="conteo">Conteo</string>
+    <string name="numerofactura">N° de Facturas</string>
 </resources>

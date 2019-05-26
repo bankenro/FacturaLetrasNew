@@ -97,7 +97,7 @@ class MenuFragment : Fragment(), View.OnClickListener {
 
     private fun CambiarFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.contenedor,fragment)?.commit()
+        transaction?.replace(R.id.contenedor,fragment)?.addToBackStack(null)?.commit()
     }
 
     private fun CerrarSesion() {

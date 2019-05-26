@@ -36,6 +36,7 @@ class AddUsuarioFragment : Fragment(), View.OnClickListener, AdapterView.OnItemS
     private var id: EditText? = null
     private var nombre: EditText? = null
     private var password: EditText? = null
+    private var telefono: EditText? = null
     private var tipousu: Spinner? = null
     private var registrar: Button? = null
     private var tipousuList: MutableList<Tipos>? = null
@@ -50,6 +51,7 @@ class AddUsuarioFragment : Fragment(), View.OnClickListener, AdapterView.OnItemS
         id = view.findViewById(R.id.id)
         nombre = view.findViewById(R.id.nombre)
         password = view.findViewById(R.id.password)
+        telefono = view.findViewById(R.id.telefono)
         tipousu = view.findViewById(R.id.tipousu)
         registrar = view.findViewById(R.id.registrar)
 
@@ -126,14 +128,15 @@ class AddUsuarioFragment : Fragment(), View.OnClickListener, AdapterView.OnItemS
         val nombreStr = nombre?.text.toString().trim()
         val idStr = id?.text.toString().trim()
         val passwordStr = password?.text.toString().trim()
-        if (nombreStr.isNotEmpty() && idStr.isNotEmpty() && passwordStr.isNotEmpty() && tid != null){
-            RegistrarUsuario(nombreStr,idStr,passwordStr, tid!!)
-        }else{
-            Toast.makeText(activity,"Rellene todos los campos",Toast.LENGTH_SHORT).show()
+        val telefonoStr = telefono?.text.toString().trim()
+        if (nombreStr.isNotEmpty() && idStr.isNotEmpty() && passwordStr.isNotEmpty() && telefonoStr.isNotEmpty() && tid != null) {
+            RegistrarUsuario(nombreStr, idStr, passwordStr, tid!!,telefonoStr)
+        } else {
+            Toast.makeText(activity, "Rellene todos los campos", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun RegistrarUsuario(nombreStr: String, idStr: String, passwordStr: String, tid: Int) {
+    private fun RegistrarUsuario(nombreStr: String, idStr: String, passwordStr: String, tid: Int, telefonoStr: String) {
         val dialog: AlertDialog =
             SpotsDialog.Builder().setContext(activity).setMessage(R.string.app_name).setCancelable(false).build()
         dialog.show()
@@ -166,6 +169,7 @@ class AddUsuarioFragment : Fragment(), View.OnClickListener, AdapterView.OnItemS
                 params["password"] = passwordStr
                 params["nombre"] = nombreStr
                 params["tid"] = tid.toString()
+                params["telefono"] = telefonoStr
                 return params
             }
         }

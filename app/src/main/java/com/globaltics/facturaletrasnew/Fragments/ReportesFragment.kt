@@ -181,7 +181,8 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
                                 objectArtist.getString("empresa"),
                                 objectArtist.getString("monto"),
                                 objectArtist.getString("fecha"),
-                                objectArtist.getString("estado")
+                                objectArtist.getString("estado"),
+                                objectArtist.getString("moneda")
                             )
                             reportesLetraList!!.add(letras)
                         }
@@ -272,7 +273,6 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
         val stringRequest = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener<String> { response ->
-                Log.e("ERROR",response)
                 try {
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
@@ -283,13 +283,15 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
                             val objectArtist = array.getJSONObject(i)
                             val reportes = Facturas(
                                 objectArtist.getString("factura"),
-                                objectArtist.getString("nombre"),
+                                objectArtist.getString("empresa"),
                                 objectArtist.getString("monto"),
                                 objectArtist.getInt("pagados"),
                                 objectArtist.getInt("debidos"),
                                 objectArtist.getString("pagado"),
                                 objectArtist.getString("debido"),
-                                objectArtist.getInt("numero")
+                                objectArtist.getInt("numero"),
+                                objectArtist.getString("banco"),
+                                objectArtist.getString("moneda")
                             )
                             reportesFactuList!!.add(reportes)
                         }
