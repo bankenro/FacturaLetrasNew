@@ -4,6 +4,7 @@ package com.globaltics.facturaletrasnew.Fragments.DialogsFragment
 import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.*
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.globaltics.facturaletrasnew.Clases.ActualizarRecyclerViews
 import com.globaltics.facturaletrasnew.Clases.EndPoints
 import com.globaltics.facturaletrasnew.Clases.VolleySingleton
 
@@ -23,8 +25,8 @@ import java.util.*
 class PagoLetrasDF : DialogFragment(), View.OnClickListener {
 
     private var imagen: ImageView? = null
-    private var nombre: TextView? = null
-    private var monto: TextView? = null
+    private var letra: TextView? = null
+    private var fecha: TextView? = null
     private var confirmar: EditText? = null
     private var registrar: Button? = null
     private var cancelar: Button? = null
@@ -42,16 +44,16 @@ class PagoLetrasDF : DialogFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         imagen = view.findViewById(R.id.imagen)
-        nombre = view.findViewById(R.id.nombre)
-        monto = view.findViewById(R.id.monto)
+        letra = view.findViewById(R.id.letra)
+        fecha = view.findViewById(R.id.fecha)
         moneda = view.findViewById(R.id.moneda)
         confirmar = view.findViewById(R.id.confirmar)
         registrar = view.findViewById(R.id.registrar)
         cancelar = view.findViewById(R.id.cancelar)
         if (arguments != null) {
             factura = arguments?.get("id").toString()
-            nombre?.text = arguments?.get("nombre").toString()
-            monto?.text = arguments?.get("monto").toString()
+            letra?.text = arguments?.get("letra").toString()
+            fecha?.text = arguments?.get("fecha").toString()
             moneda?.text = arguments?.get("moneda").toString()
             registrar?.setOnClickListener(this)
         }
@@ -63,7 +65,7 @@ class PagoLetrasDF : DialogFragment(), View.OnClickListener {
         val dialog = dialog
         if (dialog != null) {
             val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.WRAP_CONTENT
             dialog.window!!.setLayout(width, height)
         }
     }
@@ -85,36 +87,42 @@ class PagoLetrasDF : DialogFragment(), View.OnClickListener {
     }
 
     private fun Registrar() {
-        val dialog: AlertDialog =
+        val dialogA: AlertDialog =
             SpotsDialog.Builder().setContext(activity).setMessage(R.string.app_name).setCancelable(false).build()
-        dialog.show()
+        dialogA.show()
         val request = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener { response ->
                 try {
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
+                        dialogA.dismiss()
                         dialog.dismiss()
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
+                        try {
+                            (targetFragment as ActualizarRecyclerViews).ActuDetalFact()
+                        } catch (e: ClassCastException) {
+                            e.printStackTrace()
+                        }
                     } else {
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
-                        dialog.dismiss()
+                        dialogA.dismiss()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    dialog.dismiss()
+                    dialogA.dismiss()
                 }
             },
             Response.ErrorListener { error ->
                 Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
-                dialog.dismiss()
+                dialogA.dismiss()
             }) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
                 params["accion"] = "pago"
                 params["factura"] = factura!!
-                params["letra"] = nombre.toString()
+                params["letra"] = letra?.text.toString()
                 return params
             }
         }

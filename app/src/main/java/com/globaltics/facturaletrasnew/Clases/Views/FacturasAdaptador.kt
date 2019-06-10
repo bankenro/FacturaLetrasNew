@@ -3,6 +3,7 @@ package com.globaltics.facturaletrasnew.Clases.Views
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -22,6 +23,7 @@ import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.PagoLetrasDF
 import com.globaltics.facturaletrasnew.Fragments.FacturasFragment
 import com.globaltics.facturaletrasnew.R
 import java.util.*
+
 
 class FacturasAdaptador(
     val facturasList: ArrayList<Facturas>,
@@ -45,7 +47,7 @@ class FacturasAdaptador(
         val bundle = Bundle()
         holder.menu.visibility = View.GONE
         if (Objects.equals(tipou, "supersu")) {
-            holder.cardFactura.setOnClickListener {
+            holder.sub_item.setOnClickListener {
                 val fragment = DetallesFacturaFragment()
                 val fragmentManager = (context as FragmentActivity).supportFragmentManager
                 val fragmentTransaction = fragmentManager.beginTransaction()
@@ -68,7 +70,7 @@ class FacturasAdaptador(
                             dialog.setTargetFragment(facturasFragment, 1)
                             val ft = (context as FragmentActivity).supportFragmentManager.beginTransaction()
                             bundle.putString("accion", "act_fact")
-                            bundle.putString("id",facturasList[position].factura )
+                            bundle.putString("id", facturasList[position].factura)
                             bundle.putString("empresa", facturasList[position].empresa)
                             bundle.putString("monto", facturasList[position].monto)
                             bundle.putString("banco", facturasList[position].banco)
@@ -84,10 +86,13 @@ class FacturasAdaptador(
                 popupMenu.show()
             }
         }
+        holder.item.setOnClickListener {
+            notifyItemChanged(position)
+        }
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val cardFactura = v.findViewById(R.id.cardFactura) as CardView
+        val item = v.findViewById(R.id.item) as ConstraintLayout
         val factura = v.findViewById(R.id.factura) as TextView
         val empresa = v.findViewById(R.id.empresa) as TextView
         val nletras = v.findViewById(R.id.nletras) as TextView
@@ -99,7 +104,13 @@ class FacturasAdaptador(
         val pagado = v.findViewById(R.id.pagado) as TextView
         val debido = v.findViewById(R.id.debido) as TextView
         val menu = v.findViewById(R.id.menu) as ImageButton
+        val sub_item = v.findViewById(R.id.sub_item) as ConstraintLayout
         fun bindItems(facturas: Facturas) {
+            if (sub_item.visibility == View.GONE) {
+                sub_item.visibility = View.VISIBLE
+            } else  if (sub_item.visibility == View.VISIBLE){
+                sub_item.visibility = View.GONE
+            }
             factura.text = facturas.factura
             empresa.text = facturas.empresa
             nletras.text = facturas.numero.toString()

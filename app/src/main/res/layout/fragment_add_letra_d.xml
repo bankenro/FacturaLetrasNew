@@ -7,7 +7,7 @@
                                              tools:context=".Fragments.DialogsFragment.AddLetraDF">
     <TextView
             android:text="@string/agregarletra"
-            android:layout_width="395dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/textView"
             android:textAlignment="center" android:textSize="24sp"
@@ -15,7 +15,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/textConteo"/>
+            app:layout_constraintBottom_toTopOf="@+id/textView47"/>
     <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -77,13 +77,13 @@
             app:layout_constraintBottom_toTopOf="@+id/fecha" tools:visibility="gone"/>
     <TextView
             android:text="@string/fecha"
-            android:layout_width="395dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/fecha"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintTop_toBottomOf="@+id/textMoneda"
             app:layout_constraintBottom_toTopOf="@+id/registrar"/>
     <Button
@@ -112,14 +112,32 @@
             android:layout_height="wrap_content"
             android:id="@+id/textConteo" android:textSize="18sp"
             tools:visibility="visible" android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintEnd_toStartOf="@+id/conteo" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/textInputLayout3"/>
+            app:layout_constraintEnd_toStartOf="@+id/conteo"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView47"
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout3" android:layout_marginBottom="8dp"/>
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/conteo" android:textSize="18sp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textConteo" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/textInputLayout3"/>
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout3" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/monto0" android:layout_marginBottom="8dp"/>
+    <TextView
+            android:text="@string/monto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView47"
+            app:layout_constraintTop_toBottomOf="@+id/textView" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toStartOf="@+id/monto0"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/textConteo" android:layout_marginTop="8dp"
+            android:textSize="18sp"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/monto0" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/conteo" app:layout_constraintVertical_bias="0.276"
+            app:layout_constraintStart_toEndOf="@+id/textView47" android:textSize="18sp"/>
 </android.support.constraint.ConstraintLayout>

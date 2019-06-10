@@ -15,6 +15,7 @@ import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.globaltics.facturaletrasnew.Clases.ActualizarRecyclerViews
 import com.globaltics.facturaletrasnew.Clases.EndPoints
 import com.globaltics.facturaletrasnew.Clases.Modelos.Letras
 import com.globaltics.facturaletrasnew.Clases.Views.LetrasAdaptador
@@ -34,7 +35,10 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class DetallesFacturaFragment : Fragment() {
+class DetallesFacturaFragment : Fragment(),ActualizarRecyclerViews {
+    override fun ActuDetalFact() {
+        LlenarLetras()
+    }
 
     private var imagen: ImageView? = null
     private var factura: TextView? = null
@@ -58,8 +62,10 @@ class DetallesFacturaFragment : Fragment() {
         debidos = view.findViewById(R.id.debidos)
         letras = view.findViewById(R.id.letras)
         letrasList = ArrayList()
-        letras!!.layoutManager = LinearLayoutManager(activity)
-        letras!!.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        letras?.setHasFixedSize(true)
+        letras?.itemAnimator = null
+        letras?.layoutManager = LinearLayoutManager(activity)
+        letras?.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
 
         if (arguments != null) {
             factura?.text = arguments?.get("factura").toString()
@@ -73,7 +79,7 @@ class DetallesFacturaFragment : Fragment() {
     }
 
     private fun LlenarLetras() {
-        letras!!.adapter = null
+        letras?.adapter = null
         val stringRequest = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener<String> { response ->
@@ -82,7 +88,7 @@ class DetallesFacturaFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
                         val array = obj.getJSONArray("letras")
-                        letrasList!!.clear()
+                        letrasList?.clear()
                         for (i in 0 until array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val letras = Letras(
@@ -94,7 +100,7 @@ class DetallesFacturaFragment : Fragment() {
                                 objectArtist.getString("estado"),
                                 objectArtist.getString("moneda")
                             )
-                            letrasList!!.add(letras)
+                            letrasList?.add(letras)
                         }
                         //try {
                             val adapter =

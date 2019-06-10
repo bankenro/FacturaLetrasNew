@@ -33,7 +33,7 @@
             <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/factura"
+                    android:id="@+id/letra"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="8dp"
@@ -47,7 +47,7 @@
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/factura"
+                    app:layout_constraintTop_toBottomOf="@+id/letra"
                     app:layout_constraintBottom_toTopOf="@+id/moneda"
                     android:layout_marginTop="8dp" app:layout_constraintStart_toEndOf="@+id/textView13"
                     android:layout_marginStart="8dp"/>
@@ -60,8 +60,8 @@
                     app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
                     app:layout_constraintStart_toEndOf="@+id/textView14" android:layout_marginStart="8dp"/>
             <TextView
-                    android:text="@string/factura"
-                    android:layout_width="wrap_content"
+                    android:text="@string/letra"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView12" android:textSize="18sp"
                     android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
@@ -70,7 +70,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/factura"/>
             <TextView
                     android:text="@string/fecha"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView13" android:textSize="18sp"
                     android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView12"
@@ -79,7 +79,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/fecha"/>
             <TextView
                     android:text="@string/moneda0"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView14" android:textSize="18sp"
                     android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView13"

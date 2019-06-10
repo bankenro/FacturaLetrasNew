@@ -27,7 +27,7 @@ class ReportLetraAdaptador(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(letrasList[position])
-        if (Objects.equals(letrasList[position].estado, 1)) {
+        if (Objects.equals(letrasList[position].estado, "DEBIDO")) {
             holder.estado.setTextColor(ContextCompat.getColor(context, R.color.rojo))
         } else {
             holder.estado.setTextColor(ContextCompat.getColor(context, R.color.verde))

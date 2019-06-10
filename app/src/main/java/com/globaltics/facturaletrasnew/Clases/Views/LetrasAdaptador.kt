@@ -3,6 +3,7 @@ package com.globaltics.facturaletrasnew.Clases.Views
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
@@ -61,7 +62,7 @@ class LetrasAdaptador(
                             bundle.putString("accion", "act_letra")
                             bundle.putString("numero","1")
                             bundle.putString("id", factura)
-                            bundle.putString("nombre", letrasList[position].letra)
+                            bundle.putString("letra", letrasList[position].letra)
                             bundle.putString("monto", letrasList[position].monto)
                             bundle.putString("moneda",letrasList[position].moneda)
                             dialog.arguments = bundle
@@ -73,8 +74,8 @@ class LetrasAdaptador(
                             dialog.setTargetFragment(detallesFacturaFragment, 1)
                             val ft = (context as FragmentActivity).supportFragmentManager.beginTransaction()
                             bundle.putString("id", factura)
-                            bundle.putString("nombre", letrasList[position].letra)
-                            bundle.putString("monto", letrasList[position].monto)
+                            bundle.putString("letra", letrasList[position].letra)
+                            bundle.putString("fecha", letrasList[position].fecha)
                             bundle.putString("moneda",letrasList[position].moneda)
                             dialog.arguments = bundle
                             dialog.isCancelable = false
@@ -85,6 +86,9 @@ class LetrasAdaptador(
                 }
                 popupMenu.show()
             }
+        }
+        holder.item.setOnClickListener {
+            notifyItemChanged(position)
         }
     }
 
@@ -97,7 +101,14 @@ class LetrasAdaptador(
         val estado = v.findViewById(R.id.estado) as TextView
         val moneda = v.findViewById(R.id.moneda) as TextView
         val menu = v.findViewById(R.id.menu) as ImageButton
+        val item = v.findViewById(R.id.item) as ConstraintLayout
+        val sub_item = v.findViewById(R.id.sub_item) as ConstraintLayout
         fun bindItems(letras: Letras) {
+            if (sub_item.visibility == View.GONE) {
+                sub_item.visibility = View.VISIBLE
+            } else  if (sub_item.visibility == View.VISIBLE){
+                sub_item.visibility = View.GONE
+            }
             letra.text = letras.letra
             factura.text = letras.factura
             empresa.text = letras.empresa

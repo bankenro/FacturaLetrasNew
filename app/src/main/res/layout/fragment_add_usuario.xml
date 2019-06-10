@@ -20,7 +20,7 @@
                 android:hint="@string/id" android:inputType="number" android:id="@+id/id"/>
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
-            android:layout_width="395dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/textInputLayout11"
             app:layout_constraintStart_toStartOf="parent"

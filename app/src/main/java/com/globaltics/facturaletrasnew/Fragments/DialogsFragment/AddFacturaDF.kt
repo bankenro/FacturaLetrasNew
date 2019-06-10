@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import android.widget.*
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.globaltics.facturaletrasnew.Clases.ActualizarRecyclerViews
 import com.globaltics.facturaletrasnew.Clases.EndPoints
 import com.globaltics.facturaletrasnew.Clases.Modelos.Tipos
 import com.globaltics.facturaletrasnew.Clases.Views.Spinners.TiposAdaptador
@@ -313,6 +315,7 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
         val request = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener { response ->
+                //Log.e("ERROR",response)
                 try {
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
@@ -324,16 +327,26 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
                         factura?.setText("")
                         numero?.setText("")
 
-                        val bundle = Bundle()
-                        val dialogLe = AddLetraDF()
-                        dialogLe.setTargetFragment(this, 1)
-                        val ft = activity?.supportFragmentManager?.beginTransaction()
-                        bundle.putString("accion", "add_letra")
-                        bundle.putString("id", facturaStr)
-                        bundle.putString("numero", numeroStr)
-                        dialogLe.arguments = bundle
-                        dialogLe.isCancelable = false
-                        dialogLe.show(ft, "Registrar Letra")
+                        if (Objects.equals(accion, "act_fact")) {
+                            try {
+                                (targetFragment as ActualizarRecyclerViews).ActuDetalFact()
+                            } catch (e: ClassCastException) {
+                                e.printStackTrace()
+                            }
+                            dialog.dismiss()
+                        }else{
+                            val bundle = Bundle()
+                            val dialogLe = AddLetraDF()
+                            dialogLe.setTargetFragment(this, 1)
+                            val ft = activity?.supportFragmentManager?.beginTransaction()
+                            bundle.putString("accion", "add_letra")
+                            bundle.putString("id", facturaStr)
+                            bundle.putString("numero", numeroStr)
+                            bundle.putString("monto",montoStr)
+                            dialogLe.arguments = bundle
+                            dialogLe.isCancelable = false
+                            dialogLe.show(ft, "Registrar Letra")
+                        }
                     } else {
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
                         dialogA.dismiss()

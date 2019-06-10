@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.globaltics.facturaletrasnew.Clases.ActualizarRecyclerViews
 import com.globaltics.facturaletrasnew.Clases.EndPoints
 import com.globaltics.facturaletrasnew.Clases.Modelos.Facturas
 import com.globaltics.facturaletrasnew.Clases.Views.FacturasAdaptador
@@ -32,10 +33,13 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class FacturasFragment : Fragment() {
+class FacturasFragment : Fragment(), ActualizarRecyclerViews {
+    override fun ActuDetalFact() {
+        LlenarFacturas()
+    }
 
     private var facturas: RecyclerView? = null
-    private var facturasList: MutableList<Facturas>?=null
+    private var facturasList: MutableList<Facturas>? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,8 +49,10 @@ class FacturasFragment : Fragment() {
 
         facturas = view.findViewById(R.id.facturas)
         facturasList = ArrayList()
-        facturas!!.layoutManager = LinearLayoutManager(activity)
-        facturas!!.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        facturas?.setHasFixedSize(true)
+        facturas?.itemAnimator = null
+        facturas?.layoutManager = LinearLayoutManager(activity)
+        facturas?.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
 
         LlenarFacturas()
 
@@ -54,7 +60,7 @@ class FacturasFragment : Fragment() {
     }
 
     private fun LlenarFacturas() {
-        facturas!!.adapter = null
+        facturas?.adapter = null
         val stringRequest = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener<String> { response ->
@@ -63,7 +69,7 @@ class FacturasFragment : Fragment() {
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
                         val array = obj.getJSONArray("facturas")
-                        facturasList!!.clear()
+                        facturasList?.clear()
                         for (i in 0 until array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val facturas = Facturas(
@@ -80,16 +86,12 @@ class FacturasFragment : Fragment() {
                             )
                             facturasList!!.add(facturas)
                         }
-                        try {
-                            val adapter =
-                                FacturasAdaptador(
-                                    (facturasList as java.util.ArrayList<Facturas>?)!!,
-                                    this.activity!!, this
-                                )
-                            facturas!!.adapter = adapter
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                        val adapter =
+                            FacturasAdaptador(
+                                (facturasList as java.util.ArrayList<Facturas>?)!!,
+                                this.activity!!, this
+                            )
+                        facturas?.adapter = adapter
                     } else {
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
                     }

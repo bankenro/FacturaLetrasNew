@@ -19,7 +19,7 @@
 
             <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_launcher_round"
+                    android:layout_height="wrap_content" app:srcCompat="@mipmap/logo"
                     android:id="@+id/imagen" app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
@@ -33,7 +33,7 @@
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:id="@+id/empresa"
-                    android:textAlignment="center" android:textSize="24sp" android:textColor="#3F51B5"
+                    android:textSize="24sp" android:textColor="#3F51B5"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
