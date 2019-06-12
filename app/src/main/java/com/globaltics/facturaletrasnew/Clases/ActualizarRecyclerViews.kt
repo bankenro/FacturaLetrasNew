@@ -1,5 +1,5 @@
 package com.globaltics.facturaletrasnew.Clases
 
 interface ActualizarRecyclerViews {
-    fun ActuDetalFact()
+    fun ActuRecy()
 }

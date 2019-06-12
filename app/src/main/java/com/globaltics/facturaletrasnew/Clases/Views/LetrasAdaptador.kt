@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import com.globaltics.facturaletrasnew.Clases.Modelos.Letras
@@ -18,6 +19,7 @@ import com.globaltics.facturaletrasnew.Fragments.DetallesFacturaFragment
 import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.AddLetraDF
 import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.PagoLetrasDF
 import com.globaltics.facturaletrasnew.R
+import com.squareup.picasso.Picasso
 import java.util.*
 
 class LetrasAdaptador(
@@ -86,6 +88,8 @@ class LetrasAdaptador(
                 }
                 popupMenu.show()
             }
+        }else{
+            holder.menu.visibility = View.GONE
         }
         holder.item.setOnClickListener {
             notifyItemChanged(position)
@@ -103,6 +107,8 @@ class LetrasAdaptador(
         val menu = v.findViewById(R.id.menu) as ImageButton
         val item = v.findViewById(R.id.item) as ConstraintLayout
         val sub_item = v.findViewById(R.id.sub_item) as ConstraintLayout
+        val imagen = v.findViewById(R.id.imagen) as ImageView
+        val descripcion = v.findViewById(R.id.descripcion) as TextView
         fun bindItems(letras: Letras) {
             if (sub_item.visibility == View.GONE) {
                 sub_item.visibility = View.VISIBLE
@@ -116,6 +122,12 @@ class LetrasAdaptador(
             monto.text = letras.monto
             estado.text = letras.estado
             moneda.text = letras.moneda
+            if (!(Objects.equals(letras.imagen,"") && Objects.equals(letras.descripcion,""))){
+                Picasso.get().load(letras.imagen).resize(150, 200).into(imagen)
+                descripcion.text = letras.descripcion
+            }else{
+                descripcion.text = "SIN DESCRIPCION"
+            }
         }
 
     }

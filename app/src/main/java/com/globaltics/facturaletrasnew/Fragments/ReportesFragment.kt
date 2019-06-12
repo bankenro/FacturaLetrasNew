@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,6 +67,8 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
         reportesFactuList = ArrayList()
         LlenarFiltros()
 
+        reporte?.setHasFixedSize(true)
+        reporte?.itemAnimator = null
         reporte?.layoutManager = LinearLayoutManager(activity)
         reporte?.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
 
@@ -182,7 +183,10 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
                                 objectArtist.getString("monto"),
                                 objectArtist.getString("fecha"),
                                 objectArtist.getString("estado"),
-                                objectArtist.getString("moneda")
+                                objectArtist.getString("moneda"),
+                                objectArtist.getString("descripcion"),
+                                objectArtist.getString("imagen")
+
                             )
                             reportesLetraList!!.add(letras)
                         }

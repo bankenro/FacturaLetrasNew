@@ -1,14 +1,17 @@
 package com.globaltics.facturaletrasnew.Clases.Views
 
 import android.content.Context
+import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.globaltics.facturaletrasnew.Clases.Modelos.Letras
 import com.globaltics.facturaletrasnew.R
+import com.squareup.picasso.Picasso
 import java.util.*
 
 class ReportLetraAdaptador(
@@ -32,6 +35,9 @@ class ReportLetraAdaptador(
         } else {
             holder.estado.setTextColor(ContextCompat.getColor(context, R.color.verde))
         }
+        holder.item.setOnClickListener {
+            notifyItemChanged(position)
+        }
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -41,13 +47,30 @@ class ReportLetraAdaptador(
         val fecha = v.findViewById(R.id.fecha) as TextView
         val monto = v.findViewById(R.id.monto) as TextView
         val estado = v.findViewById(R.id.estado) as TextView
+        val moneda = v.findViewById(R.id.moneda) as TextView
+        val imagen = v.findViewById(R.id.imagen) as ImageView
+        val descripcion = v.findViewById(R.id.descripcion) as TextView
+        val item = v.findViewById(R.id.item) as ConstraintLayout
+        val sub_item = v.findViewById(R.id.sub_item) as ConstraintLayout
         fun bindItems(letras: Letras) {
+            if (sub_item.visibility == View.GONE) {
+                sub_item.visibility = View.VISIBLE
+            } else  if (sub_item.visibility == View.VISIBLE){
+                sub_item.visibility = View.GONE
+            }
             letra.text = letras.letra
             factura.text = letras.factura
             empresa.text = letras.empresa
             fecha.text = letras.fecha
             monto.text = letras.monto
             estado.text = letras.estado
+            moneda.text = letras.moneda
+            if (!(Objects.equals(letras.imagen,"") && Objects.equals(letras.descripcion,""))){
+                Picasso.get().load(letras.imagen).resize(150, 200).into(imagen)
+                descripcion.text = letras.descripcion
+            }else{
+                descripcion.text = "SIN DESCRIPCION"
+            }
         }
 
     }

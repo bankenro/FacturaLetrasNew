@@ -329,7 +329,7 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
 
                         if (Objects.equals(accion, "act_fact")) {
                             try {
-                                (targetFragment as ActualizarRecyclerViews).ActuDetalFact()
+                                (targetFragment as ActualizarRecyclerViews).ActuRecy()
                             } catch (e: ClassCastException) {
                                 e.printStackTrace()
                             }

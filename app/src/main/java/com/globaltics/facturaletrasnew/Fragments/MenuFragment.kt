@@ -4,17 +4,14 @@ package com.globaltics.facturaletrasnew.Fragments
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.opengl.Visibility
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import com.globaltics.facturaletrasnew.Activitys.MainActivity
 import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.AddFacturaDF
-import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.AddLetraDF
 
 import com.globaltics.facturaletrasnew.R
 import java.util.*
@@ -57,6 +54,10 @@ class MenuFragment : Fragment(), View.OnClickListener {
             addfactura?.visibility = View.VISIBLE
             reportes?.visibility = View.VISIBLE
             registro?.visibility = View.VISIBLE
+        }else{
+            addfactura?.visibility = View.GONE
+            reportes?.visibility = View.GONE
+            registro?.visibility = View.GONE
         }
 
         addfactura?.setOnClickListener(this)

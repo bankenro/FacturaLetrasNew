@@ -7,5 +7,7 @@ class Letras(
     val monto: String,
     val fecha: String,
     val estado: String,
-    val moneda: String
+    val moneda: String,
+    val descripcion: String,
+    val imagen: String
 )

@@ -35,4 +35,5 @@
     <string name="debido">Debido</string>
     <string name="conteo">Conteo</string>
     <string name="numerofactura">N° de Facturas</string>
+    <string name="descripcion">Descripcion</string>
 </resources>

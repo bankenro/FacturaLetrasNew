@@ -34,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class FacturasFragment : Fragment(), ActualizarRecyclerViews {
-    override fun ActuDetalFact() {
+    override fun ActuRecy() {
         LlenarFacturas()
     }
 

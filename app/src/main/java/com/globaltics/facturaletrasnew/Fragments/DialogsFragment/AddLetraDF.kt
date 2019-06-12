@@ -88,7 +88,7 @@ class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSel
             factura = arguments?.get("id").toString()
             accion = arguments?.get("accion").toString()
             ContNume = arguments?.get("numero").toString().toInt()
-            ContMont = arguments?.get("monto").toString().toInt()
+            ContMont = arguments?.get("monto").toString().toDouble().toInt()
             monto0?.text = ContMont.toString()
             conteo?.text = ContNume.toString()
             if (Objects.equals(accion, "act_letra")) {
@@ -241,7 +241,7 @@ class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSel
                         ComprobarCeros()
                         if (Objects.equals(accion, "act_letra")) {
                             try {
-                                (targetFragment as ActualizarRecyclerViews).ActuDetalFact()
+                                (targetFragment as ActualizarRecyclerViews).ActuRecy()
                             } catch (e: ClassCastException) {
                                 e.printStackTrace()
                             }

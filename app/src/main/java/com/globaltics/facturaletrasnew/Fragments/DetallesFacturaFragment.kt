@@ -36,7 +36,7 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class DetallesFacturaFragment : Fragment(),ActualizarRecyclerViews {
-    override fun ActuDetalFact() {
+    override fun ActuRecy() {
         LlenarLetras()
     }
 
@@ -98,7 +98,9 @@ class DetallesFacturaFragment : Fragment(),ActualizarRecyclerViews {
                                 objectArtist.getString("monto"),
                                 objectArtist.getString("fecha"),
                                 objectArtist.getString("estado"),
-                                objectArtist.getString("moneda")
+                                objectArtist.getString("moneda"),
+                                objectArtist.getString("descripcion"),
+                                objectArtist.getString("imagen")
                             )
                             letrasList?.add(letras)
                         }
