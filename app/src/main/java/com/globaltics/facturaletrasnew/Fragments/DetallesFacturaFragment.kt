@@ -1,6 +1,8 @@
 package com.globaltics.facturaletrasnew.Fragments
 
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -35,11 +37,13 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class DetallesFacturaFragment : Fragment(),ActualizarRecyclerViews {
+class DetallesFacturaFragment : Fragment(), ActualizarRecyclerViews {
     override fun ActuRecy() {
         LlenarLetras()
     }
 
+    private var preferences: SharedPreferences? = null
+    private var usuario: Int? = null
     private var imagen: ImageView? = null
     private var factura: TextView? = null
     private var nombre: TextView? = null
@@ -61,6 +65,11 @@ class DetallesFacturaFragment : Fragment(),ActualizarRecyclerViews {
         pagados = view.findViewById(R.id.pagados)
         debidos = view.findViewById(R.id.debidos)
         letras = view.findViewById(R.id.letras)
+
+
+        preferences = activity?.getSharedPreferences("FactLetraGTs", Context.MODE_PRIVATE)
+        usuario = preferences?.getInt("id", 0)
+
         letrasList = ArrayList()
         letras?.setHasFixedSize(true)
         letras?.itemAnimator = null
@@ -105,12 +114,11 @@ class DetallesFacturaFragment : Fragment(),ActualizarRecyclerViews {
                             letrasList?.add(letras)
                         }
                         //try {
-                            val adapter =
-                                LetrasAdaptador(
-                                    (letrasList as java.util.ArrayList<Letras>?)!!,
-                                    this.activity!!, this, factura?.text.toString()
-                                )
-                            letras?.adapter = adapter
+                        val adapter =
+                            LetrasAdaptador(
+                                (letrasList as java.util.ArrayList<Letras>?)!!,
+                                this.activity!!, this)
+                        letras?.adapter = adapter
                         /*} catch (e: Exception) {
                             e.printStackTrace()
                         }*/
@@ -127,6 +135,7 @@ class DetallesFacturaFragment : Fragment(),ActualizarRecyclerViews {
                 val params = HashMap<String, String>()
                 params["accion"] = "letras"
                 params["factura"] = factura?.text.toString()
+                params["usu"] = usuario.toString()
                 return params
             }
         }

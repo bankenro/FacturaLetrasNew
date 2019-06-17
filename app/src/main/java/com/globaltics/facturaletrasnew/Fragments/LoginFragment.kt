@@ -7,11 +7,14 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -26,7 +29,13 @@ import org.json.JSONObject
 import java.util.*
 
 
-class LoginFragment : Fragment(), View.OnClickListener {
+class LoginFragment : Fragment(), View.OnClickListener, TextView.OnEditorActionListener {
+    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        when (actionId) {
+            EditorInfo.IME_ACTION_SEND -> ComprobarDatos()
+        }
+        return false
+    }
 
     private var preferences: SharedPreferences? = null
     private var usuario: EditText? = null
@@ -55,6 +64,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
             //Log.e("Token", TOKEN)
         }
 
+        password?.setOnEditorActionListener(this)
         ingresar?.setOnClickListener(this)
 
         return view
@@ -77,7 +87,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
-        }else{
+        } else {
             nuevotoken = TOKEN
         }
         if (usuarioStr.isNotEmpty() && passwordStr.isNotEmpty()) {

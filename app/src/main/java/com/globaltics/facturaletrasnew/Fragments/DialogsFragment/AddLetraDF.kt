@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.log
 
 
 class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -227,6 +229,7 @@ class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSel
         val request = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener { response ->
+                Log.e("Error",response)
                 try {
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {

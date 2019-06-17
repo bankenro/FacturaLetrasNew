@@ -8,6 +8,7 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.LocalBroadcastManager
+import android.util.Log
 import com.globaltics.facturaletrasnew.Activitys.MainActivity
 import com.globaltics.facturaletrasnew.Clases.EndPoints.NOTIFICACION
 import com.globaltics.facturaletrasnew.R
@@ -27,6 +28,7 @@ class FireBaseServiceNotificacion : FirebaseMessagingService() {
         val fecha = remoteMessage.data["fecha"]
         val letra = remoteMessage.data["letra"]
         val JsonObject = remoteMessage.data["data"]
+        Log.e("ERROR",remoteMessage.toString())
         Notificacion(letra)
         ShowNotificacion(empresa, fecha, letra, JsonObject)
     }
@@ -42,20 +44,20 @@ class FireBaseServiceNotificacion : FirebaseMessagingService() {
             val ja = JSONArray(jsonObject)
             var factura: String? = ""
             var empresa: String? = ""
-            /*var pagados: String? = ""
-            var debidos: String? = ""*/
+            var pagados: String? = ""
+            var debidos: String? = ""
             for (i in 0 until ja.length()) {
                 jo = ja.getJSONObject(i)
                 factura = jo.getString("factura")
                 empresa = jo.getString("empresa")
-              /*  pagados = jo.getString("pagados")
-                debidos = jo.getString("debidos")*/
+                pagados = jo.getString("pagados")
+                debidos = jo.getString("debidos")
             }
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("factura", factura)
             intent.putExtra("empresa", empresa)
-            /*intent.putExtra("pagados", pagados)
-            intent.putExtra("debidos", debidos)*/
+            intent.putExtra("pagados", pagados)
+            intent.putExtra("debidos", debidos)
             intent.putExtra("fragment", "facturaDetalles")
             val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
             val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)

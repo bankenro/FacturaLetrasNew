@@ -2,6 +2,8 @@ package com.globaltics.facturaletrasnew.Fragments
 
 
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -35,6 +37,9 @@ import kotlin.collections.ArrayList
 
 class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener {
 
+
+    private var preferences: SharedPreferences? = null
+    private var usuario: Int? = null
     private var calendar = Calendar.getInstance()
     private var sdf = SimpleDateFormat("yyyy-MM", Locale.ROOT)
     private var filtro: Spinner? = null
@@ -59,6 +64,9 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
         fecha = view.findViewById(R.id.fecha)
         descargar = view.findViewById(R.id.descargar)
         reporte = view.findViewById(R.id.reporte)
+
+        preferences = activity?.getSharedPreferences("FactLetraGTs", Context.MODE_PRIVATE)
+        usuario = preferences?.getInt("id", 0)
 
         fecha?.text = sdf.format(calendar.time)
         filtrosList = ArrayList()
@@ -214,6 +222,7 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
                 params["accion"] = "reportes"
                 params["fecha"] = fecha
                 params["idr"] = idr.toString()
+                params["usu"] = usuario.toString()
                 return params
             }
         }
@@ -266,6 +275,7 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
                 params["accion"] = "reportes"
                 params["fecha"] = fecha
                 params["idr"] = idr.toString()
+                params["usu"] = usuario.toString()
                 return params
             }
         }
@@ -323,6 +333,7 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
                 params["accion"] = "reportes"
                 params["fecha"] = fecha
                 params["idr"] = idr.toString()
+                params["usu"] = usuario.toString()
                 return params
             }
         }

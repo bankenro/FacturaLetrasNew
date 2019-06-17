@@ -57,12 +57,17 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
     private var banco: TextView? = null
     private var bancosList: MutableList<Tipos>? = null
     private var bid: Int? = null
-    private var proveedores: Spinner? = null
-    private var textProveedor: TextView? = null
-    private var proveedor: TextView? = null
-    private var proveedoresList: MutableList<Tipos>? = null
+    private var empresas: Spinner? = null
+    private var textEmpresa: TextView? = null
+    private var empresa: TextView? = null
+    private var empresasList: MutableList<Tipos>? = null
     private var pid: Int? = null
-
+    private var operaciones: Spinner? = null
+    private var operacionesList: MutableList<Tipos>? = null
+    private var oid: Int? = null
+    private var clientes: Spinner? = null
+    private var clientesList: MutableList<Tipos>? = null
+    private var cid: Int? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,7 +75,7 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add_factura_d, container, false)
 
-        proveedor = view.findViewById(R.id.proveedor)
+        empresa = view.findViewById(R.id.empresa)
         factura = view.findViewById(R.id.factura)
         monto = view.findViewById(R.id.monto)
         numero = view.findViewById(R.id.numero)
@@ -80,24 +85,29 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
         bancos = view.findViewById(R.id.bancos)
         textBanco = view.findViewById(R.id.textBanco)
         banco = view.findViewById(R.id.banco)
-        proveedores = view.findViewById(R.id.proveedores)
-        textProveedor = view.findViewById(R.id.textProveedor)
+        empresas = view.findViewById(R.id.empresas)
+        textEmpresa = view.findViewById(R.id.textEmpresa)
         registrar = view.findViewById(R.id.registrar)
         cancelar = view.findViewById(R.id.cancelar)
+        clientes = view.findViewById(R.id.clientes)
+        operaciones = view.findViewById(R.id.operaciones)
 
         preferences = activity?.getSharedPreferences("FactLetraGTs", Context.MODE_PRIVATE)
         usuario = preferences?.getInt("id", 0)
 
         monedasList = ArrayList()
         bancosList = ArrayList()
-        proveedoresList = ArrayList()
+        empresasList = ArrayList()
+        operacionesList = ArrayList()
+        clientesList = ArrayList()
+
 
         textMoneda?.visibility = View.GONE
         moneda?.visibility = View.GONE
         textBanco?.visibility = View.GONE
         banco?.visibility = View.GONE
-        textProveedor?.visibility = View.GONE
-        proveedor?.visibility = View.GONE
+        textEmpresa?.visibility = View.GONE
+        empresa?.visibility = View.GONE
 
         if (arguments != null) {
             accion = arguments?.get("accion").toString()
@@ -108,10 +118,10 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
                 moneda?.visibility = View.VISIBLE
                 textBanco?.visibility = View.VISIBLE
                 banco?.visibility = View.VISIBLE
-                textProveedor?.visibility = View.VISIBLE
-                proveedor?.visibility = View.VISIBLE
+                textEmpresa?.visibility = View.VISIBLE
+                empresa?.visibility = View.VISIBLE
                 factura?.setText(arguments?.get("id").toString())
-                proveedor?.text = arguments?.get("empresa").toString()
+                empresa?.text = arguments?.get("empresa").toString()
                 monto?.setText(arguments?.get("monto").toString())
                 numero?.setText(arguments?.get("numero").toString())
                 moneda?.text = arguments?.get("moneda").toString()
@@ -120,14 +130,105 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
         }
         LlenarMonedas()
         LlenarBancos()
-        LlenarProveedores()
+        LlenarEmpresas()
+        LlenarClientes()
+        LlenarOperaciones()
 
         bancos?.onItemSelectedListener = this
-        proveedores?.onItemSelectedListener = this
+        empresas?.onItemSelectedListener = this
         monedas?.onItemSelectedListener = this
+        operaciones?.onItemSelectedListener = this
+        clientes?.onItemSelectedListener = this
         cancelar?.setOnClickListener(this)
         registrar?.setOnClickListener(this)
         return view
+    }
+
+    private fun LlenarOperaciones() {
+        operaciones!!.adapter = null
+        val stringRequest = object : StringRequest(
+            Method.POST, EndPoints.URL_ROOT,
+            Response.Listener<String> { response ->
+                try {
+                    val obj = JSONObject(response)
+                    if (!obj.getBoolean("error")) {
+                        //Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
+                        val array = obj.getJSONArray("operaciones")
+                        operacionesList!!.clear()
+                        for (i in 0 until array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+                            val tipos = Tipos(
+                                objectArtist.getInt("id"),
+                                objectArtist.getString("nombre")
+                            )
+                            operacionesList?.add(tipos)
+                        }
+                        val adapter = TiposAdaptador(
+                            this.activity!!,
+                            R.layout.item_spinner,
+                            this.operacionesList!!
+                        )
+                        operaciones?.adapter = adapter
+                    } else {
+                        //Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error -> Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show() }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = HashMap<String, String>()
+                params["accion"] = "operaciones"
+                return params
+            }
+        }
+        VolleySingleton.instance?.addToRequestQueue(stringRequest)
+    }
+
+    private fun LlenarClientes() {
+        clientes!!.adapter = null
+        val stringRequest = object : StringRequest(
+            Method.POST, EndPoints.URL_ROOT,
+            Response.Listener<String> { response ->
+                try {
+                    val obj = JSONObject(response)
+                    if (!obj.getBoolean("error")) {
+                        //Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
+                        val array = obj.getJSONArray("clientes")
+                        clientesList!!.clear()
+                        for (i in 0 until array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+                            val tipos = Tipos(
+                                objectArtist.getInt("id"),
+                                objectArtist.getString("nombre")
+                            )
+                            clientesList?.add(tipos)
+                        }
+                        val adapter = TiposAdaptador(
+                            this.activity!!,
+                            R.layout.item_spinner,
+                            this.clientesList!!
+                        )
+                        clientes?.adapter = adapter
+                    } else {
+                        //Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error -> Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show() }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params = HashMap<String, String>()
+                params["accion"] = "clientes"
+                params["usu"] = usuario.toString()
+                return params
+            }
+        }
+        VolleySingleton.instance?.addToRequestQueue(stringRequest)
     }
 
     override fun onStart() {
@@ -152,9 +253,9 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
         val montoStr = monto?.text.toString()
         val numeroStr = numero?.text.toString()
         if (facturaStr.isNotEmpty() && montoStr.isNotEmpty()
-            && numeroStr.isNotEmpty() && mid != null && bid != null && pid != null
+            && numeroStr.isNotEmpty() && mid != null && bid != null && pid != null && oid != null && cid != null
         ) {
-            Registrar(facturaStr, montoStr, numeroStr, mid!!, bid!!, pid!!)
+            Registrar(facturaStr, montoStr, numeroStr, mid!!, bid!!, pid!!, oid!!, cid!!)
         } else {
             Toast.makeText(activity, "Rellene todos los campos", Toast.LENGTH_SHORT).show()
         }
@@ -168,7 +269,9 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
         when (parent?.id) {
             R.id.monedas -> mid = monedasList!![position].id
             R.id.bancos -> bid = bancosList!![position].id
-            R.id.proveedores -> pid = proveedoresList!![position].id
+            R.id.empresas -> pid = empresasList!![position].id
+            R.id.clientes -> cid = clientesList!![position].id
+            R.id.operaciones -> oid = operacionesList!![position].id
         }
     }
 
@@ -215,8 +318,8 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
         VolleySingleton.instance?.addToRequestQueue(stringRequest)
     }
 
-    private fun LlenarProveedores() {
-        proveedores!!.adapter = null
+    private fun LlenarEmpresas() {
+        empresas!!.adapter = null
         val stringRequest = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener<String> { response ->
@@ -224,22 +327,22 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
                         //Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
-                        val array = obj.getJSONArray("proveedores")
-                        proveedoresList!!.clear()
+                        val array = obj.getJSONArray("empresas")
+                        empresasList!!.clear()
                         for (i in 0 until array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val tipos = Tipos(
                                 objectArtist.getInt("id"),
                                 objectArtist.getString("nombre")
                             )
-                            proveedoresList?.add(tipos)
+                            empresasList?.add(tipos)
                         }
                         val adapter = TiposAdaptador(
                             this.activity!!,
                             R.layout.item_spinner,
-                            this.proveedoresList!!
+                            this.empresasList!!
                         )
-                        proveedores?.adapter = adapter
+                        empresas?.adapter = adapter
                     } else {
                         //Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
                     }
@@ -251,7 +354,8 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["accion"] = "proveedores"
+                params["accion"] = "empresas"
+                params["usu"] = usuario.toString()
                 return params
             }
         }
@@ -307,7 +411,9 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
         numeroStr: String,
         mid: Int,
         bid: Int,
-        pid: Int
+        pid: Int,
+        oid: Int,
+        cid: Int
     ) {
         val dialogA: AlertDialog =
             SpotsDialog.Builder().setContext(activity).setMessage(R.string.app_name).setCancelable(false).build()
@@ -315,14 +421,13 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
         val request = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener { response ->
-                //Log.e("ERROR",response)
                 try {
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
                         dialogA.dismiss()
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
 
-                        proveedor?.text = ""
+                        empresa?.text = ""
                         monto?.setText("")
                         factura?.setText("")
                         numero?.setText("")
@@ -334,7 +439,7 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
                                 e.printStackTrace()
                             }
                             dialog.dismiss()
-                        }else{
+                        } else {
                             val bundle = Bundle()
                             val dialogLe = AddLetraDF()
                             dialogLe.setTargetFragment(this, 1)
@@ -342,7 +447,7 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
                             bundle.putString("accion", "add_letra")
                             bundle.putString("id", facturaStr)
                             bundle.putString("numero", numeroStr)
-                            bundle.putString("monto",montoStr)
+                            bundle.putString("monto", montoStr)
                             dialogLe.arguments = bundle
                             dialogLe.isCancelable = false
                             dialogLe.show(ft, "Registrar Letra")
@@ -371,6 +476,8 @@ class AddFacturaDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemS
                 params["mid"] = mid.toString()
                 params["bid"] = bid.toString()
                 params["pid"] = pid.toString()
+                params["oid"] = oid.toString()
+                params["cid"] = cid.toString()
                 return params
             }
         }

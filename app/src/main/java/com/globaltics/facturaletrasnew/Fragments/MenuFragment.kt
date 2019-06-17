@@ -31,6 +31,7 @@ class MenuFragment : Fragment(), View.OnClickListener {
     private var facturas: ImageButton? = null
     private var reportes: ImageButton? = null
     private var registro: ImageButton? = null
+    private var letras: ImageButton? = null
     private var salir: ImageButton? = null
     private var fragment: Fragment? = null
     private var preferences: SharedPreferences? = null
@@ -45,6 +46,7 @@ class MenuFragment : Fragment(), View.OnClickListener {
 
         addfactura = view.findViewById(R.id.addfactura)
         facturas = view.findViewById(R.id.facturas)
+        letras = view.findViewById(R.id.letras)
         reportes = view.findViewById(R.id.reportes)
         registro = view.findViewById(R.id.registro)
         salir = view.findViewById(R.id.salir)
@@ -65,6 +67,7 @@ class MenuFragment : Fragment(), View.OnClickListener {
         reportes?.setOnClickListener(this)
         registro?.setOnClickListener(this)
         salir?.setOnClickListener(this)
+        letras?.setOnClickListener(this)
         return view
     }
 
@@ -83,6 +86,10 @@ class MenuFragment : Fragment(), View.OnClickListener {
             R.id.facturas -> {
                 fragment = FacturasFragment()
                 CambiarFragment(fragment as FacturasFragment)
+            }
+            R.id.letras -> {
+                fragment = LetrasFragment()
+                CambiarFragment(fragment as LetrasFragment)
             }
             R.id.reportes -> {
                 fragment = ReportesFragment()

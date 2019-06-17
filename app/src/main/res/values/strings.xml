@@ -36,4 +36,6 @@
     <string name="conteo">Conteo</string>
     <string name="numerofactura">N° de Facturas</string>
     <string name="descripcion">Descripcion</string>
+    <string name="operacion">Operacion</string>
+    <string name="cliente">Cliente</string>
 </resources>

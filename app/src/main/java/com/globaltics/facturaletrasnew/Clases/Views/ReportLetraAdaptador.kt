@@ -30,10 +30,10 @@ class ReportLetraAdaptador(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(letrasList[position])
-        if (Objects.equals(letrasList[position].estado, "DEBIDO")) {
-            holder.estado.setTextColor(ContextCompat.getColor(context, R.color.rojo))
-        } else {
+        if (Objects.equals(letrasList[position].estado, "PAGADO")) {
             holder.estado.setTextColor(ContextCompat.getColor(context, R.color.verde))
+        } else {
+            holder.estado.setTextColor(ContextCompat.getColor(context, R.color.rojo))
         }
         holder.item.setOnClickListener {
             notifyItemChanged(position)
@@ -65,7 +65,7 @@ class ReportLetraAdaptador(
             monto.text = letras.monto
             estado.text = letras.estado
             moneda.text = letras.moneda
-            if (!(Objects.equals(letras.imagen,"") && Objects.equals(letras.descripcion,""))){
+            if (!(Objects.equals(letras.imagen,"a") && Objects.equals(letras.descripcion,"a"))){
                 Picasso.get().load(letras.imagen).resize(150, 200).into(imagen)
                 descripcion.text = letras.descripcion
             }else{

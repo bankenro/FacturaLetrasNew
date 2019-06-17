@@ -1,6 +1,8 @@
 package com.globaltics.facturaletrasnew.Fragments
 
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -38,6 +40,8 @@ class FacturasFragment : Fragment(), ActualizarRecyclerViews {
         LlenarFacturas()
     }
 
+    private var preferences: SharedPreferences? = null
+    private var usuario: Int? = null
     private var facturas: RecyclerView? = null
     private var facturasList: MutableList<Facturas>? = null
     override fun onCreateView(
@@ -48,6 +52,10 @@ class FacturasFragment : Fragment(), ActualizarRecyclerViews {
         val view = inflater.inflate(R.layout.fragment_facturas, container, false)
 
         facturas = view.findViewById(R.id.facturas)
+
+        preferences = activity?.getSharedPreferences("FactLetraGTs", Context.MODE_PRIVATE)
+        usuario = preferences?.getInt("id", 0)
+
         facturasList = ArrayList()
         facturas?.setHasFixedSize(true)
         facturas?.itemAnimator = null
@@ -104,6 +112,7 @@ class FacturasFragment : Fragment(), ActualizarRecyclerViews {
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
                 params["accion"] = "facturas"
+                params["usu"] = usuario.toString()
                 return params
             }
         }

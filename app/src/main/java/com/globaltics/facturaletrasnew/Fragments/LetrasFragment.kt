@@ -1,25 +1,31 @@
 package com.globaltics.facturaletrasnew.Fragments
 
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.Spinner
+import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.globaltics.facturaletrasnew.Clases.ActualizarRecyclerViews
 import com.globaltics.facturaletrasnew.Clases.EndPoints
+import com.globaltics.facturaletrasnew.Clases.Modelos.Letras
 import com.globaltics.facturaletrasnew.Clases.Modelos.Tipos
+import com.globaltics.facturaletrasnew.Clases.Views.LetrasAdaptador
 import com.globaltics.facturaletrasnew.Clases.Views.Spinners.TiposAdaptador
 import com.globaltics.facturaletrasnew.Clases.VolleySingleton
 
 import com.globaltics.facturaletrasnew.R
-import dmax.dialog.SpotsDialog
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.HashMap
@@ -33,47 +39,47 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class AddUsuarioFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener {
+class LetrasFragment : Fragment(), AdapterView.OnItemSelectedListener, ActualizarRecyclerViews {
+    override fun ActuRecy() {
+        LlenarLetras(1)
+    }
 
-    private var id: EditText? = null
-    private var nombre: EditText? = null
-    private var password: EditText? = null
-    private var telefono: EditText? = null
-    private var tipousu: Spinner? = null
-    private var registrar: Button? = null
-    private var tipousuList: MutableList<Tipos>? = null
-    private var tid: Int? = null
     private var preferences: SharedPreferences? = null
     private var usuario: Int? = null
+    private var estados: Spinner? = null
+    private var letras: RecyclerView? = null
+    private var letrasList: MutableList<Letras>? = null
+    private var estadosList: MutableList<Tipos>? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_add_usuario, container, false)
+        val view = inflater.inflate(R.layout.fragment_letras, container, false)
 
-        id = view.findViewById(R.id.id)
-        nombre = view.findViewById(R.id.nombre)
-        password = view.findViewById(R.id.password)
-        telefono = view.findViewById(R.id.telefono)
-        tipousu = view.findViewById(R.id.tipousu)
-        registrar = view.findViewById(R.id.registrar)
+        estados = view.findViewById(R.id.estados)
+        letras = view.findViewById(R.id.letras)
 
         preferences = activity?.getSharedPreferences("FactLetraGTs", Context.MODE_PRIVATE)
         usuario = preferences?.getInt("id", 0)
 
-        tipousuList = ArrayList()
+        letrasList = ArrayList()
+        estadosList = ArrayList()
+        letras?.setHasFixedSize(true)
+        letras?.itemAnimator = null
+        letras?.layoutManager = LinearLayoutManager(activity)
+        letras?.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
 
-        registrar?.setOnClickListener(this)
-        tipousu?.onItemSelectedListener = this
+        LlenarEstados()
 
-        LlenarTipousu()
+        estados?.onItemSelectedListener = this
 
         return view
     }
 
-    private fun LlenarTipousu() {
-        tipousu!!.adapter = null
+    private fun LlenarEstados() {
+        estados?.adapter = null
         val stringRequest = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener<String> { response ->
@@ -81,22 +87,22 @@ class AddUsuarioFragment : Fragment(), View.OnClickListener, AdapterView.OnItemS
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
                         //Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
-                        val array = obj.getJSONArray("tusu")
-                        tipousuList!!.clear()
+                        val array = obj.getJSONArray("estados")
+                        estadosList?.clear()
                         for (i in 0 until array.length()) {
                             val objectArtist = array.getJSONObject(i)
                             val tipos = Tipos(
                                 objectArtist.getInt("id"),
                                 objectArtist.getString("nombre")
                             )
-                            tipousuList?.add(tipos)
+                            estadosList?.add(tipos)
                         }
                         val adapter = TiposAdaptador(
                             this.activity!!,
                             R.layout.item_spinner,
-                            this.tipousuList!!
+                            this.estadosList!!
                         )
-                        tipousu?.adapter = adapter
+                        estados?.adapter = adapter
                     } else {
                         //Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
                     }
@@ -108,7 +114,7 @@ class AddUsuarioFragment : Fragment(), View.OnClickListener, AdapterView.OnItemS
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["accion"] = "tusu"
+                params["accion"] = "estados"
                 return params
             }
         }
@@ -116,72 +122,68 @@ class AddUsuarioFragment : Fragment(), View.OnClickListener, AdapterView.OnItemS
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when (parent?.id) {
-            R.id.tipousu -> tid = tipousuList!![position].id
+            R.id.estados -> LlenarLetras(estadosList!![position].id)
         }
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.registrar -> ComprobarDatos()
-        }
-    }
-
-    private fun ComprobarDatos() {
-        val nombreStr = nombre?.text.toString().trim()
-        val idStr = id?.text.toString().trim()
-        val passwordStr = password?.text.toString().trim()
-        val telefonoStr = telefono?.text.toString().trim()
-        if (nombreStr.isNotEmpty() && idStr.isNotEmpty() && passwordStr.isNotEmpty() && telefonoStr.isNotEmpty() && tid != null) {
-            RegistrarUsuario(nombreStr, idStr, passwordStr, tid!!,telefonoStr)
-        } else {
-            Toast.makeText(activity, "Rellene todos los campos", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun RegistrarUsuario(nombreStr: String, idStr: String, passwordStr: String, tid: Int, telefonoStr: String) {
-        val dialog: AlertDialog =
-            SpotsDialog.Builder().setContext(activity).setMessage(R.string.app_name).setCancelable(false).build()
-        dialog.show()
-        val request = object : StringRequest(
+    private fun LlenarLetras(id: Int) {
+        letras?.adapter = null
+        val stringRequest = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
-            Response.Listener { response ->
+            Response.Listener<String> { response ->
                 try {
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
-                        dialog.dismiss()
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
+                        val array = obj.getJSONArray("letras")
+                        letrasList?.clear()
+                        for (i in 0 until array.length()) {
+                            val objectArtist = array.getJSONObject(i)
+                            val letras = Letras(
+                                objectArtist.getString("letra"),
+                                objectArtist.getString("factura"),
+                                objectArtist.getString("empresa"),
+                                objectArtist.getString("monto"),
+                                objectArtist.getString("fecha"),
+                                objectArtist.getString("estado"),
+                                objectArtist.getString("moneda"),
+                                objectArtist.getString("descripcion"),
+                                objectArtist.getString("imagen")
+                            )
+                            letrasList?.add(letras)
+                        }
+                        //try {
+                        val adapter =
+                            LetrasAdaptador(
+                                (letrasList as java.util.ArrayList<Letras>?)!!,
+                                this.activity!!, this
+                            )
+                        letras?.adapter = adapter
+                        /*} catch (e: Exception) {
+                            e.printStackTrace()
+                        }*/
                     } else {
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
-                        dialog.dismiss()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    dialog.dismiss()
                 }
             },
-            Response.ErrorListener { error ->
-                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
-                dialog.dismiss()
-            }) {
+            Response.ErrorListener { error -> Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show() }) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["accion"] = "registrar"
-                params["id"] = idStr
-                params["password"] = passwordStr
-                params["nombre"] = nombreStr
-                params["tid"] = tid.toString()
-                params["telefono"] = telefonoStr
+                params["accion"] = "letrasAll"
+                params["estado"] = id.toString()
                 params["usu"] = usuario.toString()
                 return params
             }
         }
-        VolleySingleton.instance?.addToRequestQueue(request)
+        VolleySingleton.instance?.addToRequestQueue(stringRequest)
     }
-
 }

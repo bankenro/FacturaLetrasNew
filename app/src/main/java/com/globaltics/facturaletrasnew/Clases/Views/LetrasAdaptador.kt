@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
@@ -25,8 +26,7 @@ import java.util.*
 class LetrasAdaptador(
     val letrasList: ArrayList<Letras>,
     val context: Context,
-    val detallesFacturaFragment: DetallesFacturaFragment,
-    val factura: String
+    val detallesFacturaFragment: Fragment
 ) : RecyclerView.Adapter<LetrasAdaptador.ViewHolder>() {
 
     private var preferences: SharedPreferences? = null
@@ -43,15 +43,19 @@ class LetrasAdaptador(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(letrasList[position])
         val tipou = preferences?.getString("idt", "")
-        if (Objects.equals(letrasList[position].estado, "DEBIDO")) {
-            holder.estado.setTextColor(ContextCompat.getColor(context, R.color.rojo))
-        } else {
+        if (Objects.equals(letrasList[position].estado, "PAGADO")) {
             holder.estado.setTextColor(ContextCompat.getColor(context, R.color.verde))
+        } else {
+            holder.estado.setTextColor(ContextCompat.getColor(context, R.color.rojo))
         }
 
         val bundle = Bundle()
         if (Objects.equals(tipou, "supersu")) {
-            holder.menu.visibility = View.VISIBLE
+            if (Objects.equals(letrasList[position].estado, "PAGADO")) {
+                holder.menu.visibility = View.GONE
+            }else{
+                holder.menu.visibility = View.VISIBLE
+            }
             holder.menu.setOnClickListener { v ->
                 val popupMenu = PopupMenu(context, v)
                 popupMenu.menuInflater.inflate(R.menu.menu_letras, popupMenu.menu)
@@ -63,7 +67,7 @@ class LetrasAdaptador(
                             val ft = (context as FragmentActivity).supportFragmentManager.beginTransaction()
                             bundle.putString("accion", "act_letra")
                             bundle.putString("numero","1")
-                            bundle.putString("id", factura)
+                            bundle.putString("id", letrasList[position].factura)
                             bundle.putString("letra", letrasList[position].letra)
                             bundle.putString("monto", letrasList[position].monto)
                             bundle.putString("moneda",letrasList[position].moneda)
@@ -75,7 +79,7 @@ class LetrasAdaptador(
                             val dialog = PagoLetrasDF()
                             dialog.setTargetFragment(detallesFacturaFragment, 1)
                             val ft = (context as FragmentActivity).supportFragmentManager.beginTransaction()
-                            bundle.putString("id", factura)
+                            bundle.putString("id", letrasList[position].factura)
                             bundle.putString("letra", letrasList[position].letra)
                             bundle.putString("fecha", letrasList[position].fecha)
                             bundle.putString("moneda",letrasList[position].moneda)
@@ -122,7 +126,7 @@ class LetrasAdaptador(
             monto.text = letras.monto
             estado.text = letras.estado
             moneda.text = letras.moneda
-            if (!(Objects.equals(letras.imagen,"") && Objects.equals(letras.descripcion,""))){
+            if (!(Objects.equals(letras.imagen,"a") && Objects.equals(letras.descripcion,"a"))){
                 Picasso.get().load(letras.imagen).resize(150, 200).into(imagen)
                 descripcion.text = letras.descripcion
             }else{
