@@ -5,13 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.fragment.app.FragmentActivity
 import com.globaltics.facturaletrasnew.Activitys.MainActivity
+import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.AddCodeVerifDF
 import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.AddFacturaDF
+import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.ElimFactLetrDF
 
 import com.globaltics.facturaletrasnew.R
 import java.util.*
@@ -31,6 +34,8 @@ class MenuFragment : Fragment(), View.OnClickListener {
     private var facturas: ImageButton? = null
     private var reportes: ImageButton? = null
     private var registro: ImageButton? = null
+    private var empreclie: ImageButton? = null
+    private var actcod: ImageButton? = null
     private var letras: ImageButton? = null
     private var salir: ImageButton? = null
     private var fragment: Fragment? = null
@@ -42,24 +47,43 @@ class MenuFragment : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_menu, container, false)
 
-        preferences = activity?.getSharedPreferences("FactLetraGTs",Context.MODE_PRIVATE)
+        preferences = activity?.getSharedPreferences("FactLetraGTs", Context.MODE_PRIVATE)
 
         addfactura = view.findViewById(R.id.addfactura)
         facturas = view.findViewById(R.id.facturas)
         letras = view.findViewById(R.id.letras)
         reportes = view.findViewById(R.id.reportes)
         registro = view.findViewById(R.id.registro)
+        empreclie = view.findViewById(R.id.empreclie)
+        actcod = view.findViewById(R.id.actcod)
         salir = view.findViewById(R.id.salir)
 
-        val idt = preferences?.getString("idt","")
-        if (Objects.equals(idt,"supersu")){
+        val idt = preferences?.getString("idt", "")
+        val code = preferences?.getInt("code",1234)
+
+        if (Objects.equals(code,1234)){
+            val bundle = Bundle()
+            val dialog = AddCodeVerifDF()
+            dialog.setTargetFragment(this, 1)
+            val ft = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+            bundle.putString("condicion","regcod")
+            dialog.arguments = bundle
+            dialog.isCancelable = false
+            dialog.show(ft, "Crear Codigo Verificacion")
+        }
+
+        if (Objects.equals(idt, "supersu")) {
             addfactura?.visibility = View.VISIBLE
             reportes?.visibility = View.VISIBLE
             registro?.visibility = View.VISIBLE
-        }else{
+            empreclie?.visibility = View.VISIBLE
+            actcod?.visibility = View.VISIBLE
+        } else {
             addfactura?.visibility = View.GONE
             reportes?.visibility = View.GONE
             registro?.visibility = View.GONE
+            empreclie?.visibility = View.GONE
+            actcod?.visibility = View.GONE
         }
 
         addfactura?.setOnClickListener(this)
@@ -68,6 +92,8 @@ class MenuFragment : Fragment(), View.OnClickListener {
         registro?.setOnClickListener(this)
         salir?.setOnClickListener(this)
         letras?.setOnClickListener(this)
+        empreclie?.setOnClickListener(this)
+        actcod?.setOnClickListener(this)
         return view
     }
 
@@ -99,13 +125,27 @@ class MenuFragment : Fragment(), View.OnClickListener {
                 fragment = AddUsuarioFragment()
                 CambiarFragment(fragment as AddUsuarioFragment)
             }
+            R.id.empreclie -> {
+                fragment = EmpresasClientesFragment()
+                CambiarFragment(fragment as EmpresasClientesFragment)
+            }
+            R.id.actcod->{
+                val bundle = Bundle()
+                val dialog = AddCodeVerifDF()
+                dialog.setTargetFragment(this, 1)
+                val ft = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                bundle.putString("condicion","actcod")
+                dialog.arguments = bundle
+                dialog.isCancelable = false
+                dialog.show(ft, "Actualizar Codigo Verificacion")
+            }
             R.id.salir -> CerrarSesion()
         }
     }
 
     private fun CambiarFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.contenedor,fragment)?.addToBackStack(null)?.commit()
+        transaction?.replace(R.id.contenedor, fragment)?.addToBackStack(null)?.commit()
     }
 
     private fun CerrarSesion() {

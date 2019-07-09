@@ -3,11 +3,11 @@ package com.globaltics.facturaletrasnew.Clases.Views
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +18,7 @@ import android.widget.TextView
 import com.globaltics.facturaletrasnew.Clases.Modelos.Letras
 import com.globaltics.facturaletrasnew.Fragments.DetallesFacturaFragment
 import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.AddLetraDF
+import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.ElimFactLetrDF
 import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.PagoLetrasDF
 import com.globaltics.facturaletrasnew.R
 import com.squareup.picasso.Picasso
@@ -61,7 +62,7 @@ class LetrasAdaptador(
                 popupMenu.menuInflater.inflate(R.menu.menu_letras, popupMenu.menu)
                 popupMenu.setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
-                        R.id.editar -> {
+                        /*R.id.editar -> {
                             val dialog = AddLetraDF()
                             dialog.setTargetFragment(detallesFacturaFragment, 1)
                             val ft = (context as FragmentActivity).supportFragmentManager.beginTransaction()
@@ -74,7 +75,7 @@ class LetrasAdaptador(
                             dialog.arguments = bundle
                             dialog.isCancelable = false
                             dialog.show(ft, "Actualizar Letra")
-                        }
+                        }*/
                         R.id.pagar -> {
                             val dialog = PagoLetrasDF()
                             dialog.setTargetFragment(detallesFacturaFragment, 1)
@@ -83,9 +84,21 @@ class LetrasAdaptador(
                             bundle.putString("letra", letrasList[position].letra)
                             bundle.putString("fecha", letrasList[position].fecha)
                             bundle.putString("moneda",letrasList[position].moneda)
+                            bundle.putString("monto",letrasList[position].monto)
                             dialog.arguments = bundle
                             dialog.isCancelable = false
                             dialog.show(ft, "Pagar Letra")
+                        }
+                        R.id.eliminar -> {
+                            val dialog = ElimFactLetrDF()
+                            dialog.setTargetFragment(detallesFacturaFragment, 1)
+                            val ft = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                            bundle.putString("condicion", "elim_letr")
+                            bundle.putString("id", letrasList[position].factura)
+                            bundle.putString("factletr", letrasList[position].letra)
+                            dialog.arguments = bundle
+                            dialog.isCancelable = false
+                            dialog.show(ft, "Eliminar Letra")
                         }
                     }
                     false

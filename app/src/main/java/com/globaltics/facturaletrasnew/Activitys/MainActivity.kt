@@ -1,13 +1,15 @@
 package com.globaltics.facturaletrasnew.Activitys
 
 import android.content.*
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.LocalBroadcastManager
+import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.widget.Toast
 import com.globaltics.facturaletrasnew.Clases.EndPoints.NOTIFICACION
 import com.globaltics.facturaletrasnew.Fragments.DetallesFacturaFragment
+import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.PagoLetrasDF
+import com.globaltics.facturaletrasnew.Fragments.LetrasFragment
 import com.globaltics.facturaletrasnew.Fragments.LoginFragment
 import com.globaltics.facturaletrasnew.Fragments.MenuFragment
 import com.globaltics.facturaletrasnew.R
@@ -38,21 +40,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (intent.extras != null) {
-            if (intent.getStringExtra("fragment") == "facturaDetalles") {
+            if (intent.getStringExtra("fragment") == "pagoLetra") {
                 val bundle = Bundle()
-                val fragment: Fragment? = DetallesFacturaFragment()
-                bundle.putString("factura", intent.getStringExtra("factura"))
-                bundle.putString("empresa", intent.getStringExtra("empresa"))
-                bundle.putString("pagados", intent.getStringExtra("pagados"))
-                bundle.putString("debidos", intent.getStringExtra("debidos"))
+                val fragment: Fragment? = PagoLetrasDF()
+                bundle.putString("id", intent.getStringExtra("id"))
+                bundle.putString("letra", intent.getStringExtra("letra"))
+                bundle.putString("fecha", intent.getStringExtra("fecha"))
+                bundle.putString("moneda", intent.getStringExtra("moneda"))
+                bundle.putString("monto", intent.getStringExtra("monto"))
                 fragment!!.arguments = bundle
+                supportFragmentManager.beginTransaction()
+                .replace(R.id.contenedor, LetrasFragment()).commit()
             }
         }
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 val letra = intent.getStringExtra("letra")
-                Toast.makeText(this@MainActivity, letra, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Notificacion $letra", Toast.LENGTH_SHORT).show()
             }
         }
     }

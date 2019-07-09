@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -98,27 +98,26 @@ class LoginFragment : Fragment(), View.OnClickListener, TextView.OnEditorActionL
     }
 
     private fun Login(usuarioStr: String, passwordStr: String, nuevotoken: String) {
-        val dialog: AlertDialog =
+        val dialogA: AlertDialog =
             SpotsDialog.Builder().setContext(activity).setMessage(R.string.app_name).setCancelable(false).build()
-        dialog.show()
+        dialogA.show()
         val request = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener { response ->
                 try {
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
-                        dialog.dismiss()
+                        dialogA.dismiss()
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
 
                         val array = obj.getJSONArray("usu")
                         val objectsUsuario = array.getJSONObject(0)
 
-                        val tipou = objectsUsuario.getString("usuariot")
-
                         val editor = preferences?.edit()
                         editor?.clear()?.apply()
                         editor?.putInt("id", objectsUsuario.getInt("usuario"))
-                        editor?.putString("idt", tipou)
+                        editor?.putString("idt", objectsUsuario.getString("usuariot"))
+                        editor?.putInt("code",objectsUsuario.getInt("code"))
                         editor?.apply()
                         editor?.commit()
 
@@ -128,16 +127,16 @@ class LoginFragment : Fragment(), View.OnClickListener, TextView.OnEditorActionL
 
                     } else {
                         Toast.makeText(activity, obj.getString("mensaje"), Toast.LENGTH_LONG).show()
-                        dialog.dismiss()
+                        dialogA.dismiss()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    dialog.dismiss()
+                    dialogA.dismiss()
                 }
             },
             Response.ErrorListener { error ->
                 Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
-                dialog.dismiss()
+                dialogA.dismiss()
             }) {
             @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {

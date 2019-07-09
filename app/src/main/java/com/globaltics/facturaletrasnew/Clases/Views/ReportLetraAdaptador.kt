@@ -1,9 +1,9 @@
 package com.globaltics.facturaletrasnew.Clases.Views
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +17,7 @@ import java.util.*
 class ReportLetraAdaptador(
     val letrasList: ArrayList<Letras>,
     val context: Context
-) : RecyclerView.Adapter<ReportLetraAdaptador.ViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<ReportLetraAdaptador.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_report_letra, parent, false)
@@ -40,7 +40,7 @@ class ReportLetraAdaptador(
         }
     }
 
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+    class ViewHolder(v: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(v) {
         val letra = v.findViewById(R.id.letra) as TextView
         val factura = v.findViewById(R.id.factura) as TextView
         val empresa = v.findViewById(R.id.empresa) as TextView

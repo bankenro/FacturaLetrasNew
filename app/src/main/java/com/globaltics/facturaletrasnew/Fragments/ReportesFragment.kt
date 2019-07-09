@@ -5,10 +5,10 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +45,7 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
     private var filtro: Spinner? = null
     private var fecha: TextView? = null
     private var descargar: Button? = null
-    private var reporte: RecyclerView? = null
+    private var reporte: androidx.recyclerview.widget.RecyclerView? = null
     private var idr: Int? = 0
     private val filtroArray = arrayOf("FACTURAS", "LETRAS", "EMPRESAS")
     private var filtrosList: MutableList<Filtros>? = null
@@ -78,7 +78,12 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
         reporte?.setHasFixedSize(true)
         reporte?.itemAnimator = null
         reporte?.layoutManager = LinearLayoutManager(activity)
-        reporte?.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        reporte?.addItemDecoration(
+            DividerItemDecoration(
+                activity,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
         fecha?.setOnClickListener(this)
         descargar?.setOnClickListener(this)
@@ -298,6 +303,7 @@ class ReportesFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSel
                             val reportes = Facturas(
                                 objectArtist.getString("factura"),
                                 objectArtist.getString("empresa"),
+                                objectArtist.getString("cliente"),
                                 objectArtist.getString("monto"),
                                 objectArtist.getInt("pagados"),
                                 objectArtist.getInt("debidos"),

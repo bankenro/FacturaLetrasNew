@@ -9,10 +9,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.DialogFragment
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.DialogFragment
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,13 +35,14 @@ class PagoLetrasDF : DialogFragment(), View.OnClickListener {
     private var imagen: ImageView? = null
     private var letra: TextView? = null
     private var fecha: TextView? = null
-    private var confirmar: EditText? = null
+    private var confirmar: CheckBox? = null
     private var registrar: Button? = null
     private var cancelar: Button? = null
     private var factura: String? = null
     private var moneda: TextView? = null
-    private var foto: ImageView?=null
-    private var descripcion: EditText?=null
+    private var monto: TextView? = null
+    private var foto: ImageView? = null
+    private var descripcion: EditText? = null
     private var GALLERY_PICTURE = 0
     private val REQUEST_IMAGE_CAPTURE = 1
     private var bitmap: Bitmap? = null
@@ -62,6 +62,7 @@ class PagoLetrasDF : DialogFragment(), View.OnClickListener {
         letra = view.findViewById(R.id.letra)
         fecha = view.findViewById(R.id.fecha)
         moneda = view.findViewById(R.id.moneda)
+        monto = view.findViewById(R.id.monto)
         confirmar = view.findViewById(R.id.confirmar)
         registrar = view.findViewById(R.id.registrar)
         cancelar = view.findViewById(R.id.cancelar)
@@ -73,6 +74,7 @@ class PagoLetrasDF : DialogFragment(), View.OnClickListener {
             letra?.text = arguments?.get("letra").toString()
             fecha?.text = arguments?.get("fecha").toString()
             moneda?.text = arguments?.get("moneda").toString()
+            monto?.text = arguments?.get("monto").toString()
             registrar?.setOnClickListener(this)
         }
         cancelar?.setOnClickListener(this)
@@ -164,14 +166,13 @@ class PagoLetrasDF : DialogFragment(), View.OnClickListener {
             foto!!.draw(canvas)*/
         }
         foto1 = convertirfoto(bitmap!!)
-        if (descripcion!!.text.trim().isNotEmpty() && foto1.isNotEmpty()){
-            val confirmarStr = confirmar?.text.toString().trim()
-            if (Objects.equals(confirmarStr, "CONFIRMAR")) {
-                Registrar(foto1,descripcion!!.text.toString().trim())
-            } else {
-                Toast.makeText(activity, "Porfavor escriba CONFIRMAR", Toast.LENGTH_SHORT).show()
+        if (descripcion!!.text.trim().isNotEmpty() && foto1.isNotEmpty()) {
+            if (confirmar!!.isChecked){
+                Registrar(foto1, descripcion!!.text.toString().trim())
+            }else{
+                Toast.makeText(activity, "Confirme la operacion", Toast.LENGTH_SHORT).show()
             }
-        }else{
+        } else {
             Toast.makeText(activity, "Conplete los campos", Toast.LENGTH_SHORT).show()
         }
     }

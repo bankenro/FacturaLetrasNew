@@ -4,10 +4,10 @@ package com.globaltics.facturaletrasnew.Fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,13 +41,13 @@ private const val ARG_PARAM2 = "param2"
  */
 class LetrasFragment : Fragment(), AdapterView.OnItemSelectedListener, ActualizarRecyclerViews {
     override fun ActuRecy() {
-        LlenarLetras(1)
+        LlenarEstados()
     }
 
     private var preferences: SharedPreferences? = null
     private var usuario: Int? = null
     private var estados: Spinner? = null
-    private var letras: RecyclerView? = null
+    private var letras: androidx.recyclerview.widget.RecyclerView? = null
     private var letrasList: MutableList<Letras>? = null
     private var estadosList: MutableList<Tipos>? = null
 
@@ -68,8 +68,13 @@ class LetrasFragment : Fragment(), AdapterView.OnItemSelectedListener, Actualiza
         estadosList = ArrayList()
         letras?.setHasFixedSize(true)
         letras?.itemAnimator = null
-        letras?.layoutManager = LinearLayoutManager(activity)
-        letras?.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        letras?.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        letras?.addItemDecoration(
+            androidx.recyclerview.widget.DividerItemDecoration(
+                activity,
+                androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+            )
+        )
 
         LlenarEstados()
 

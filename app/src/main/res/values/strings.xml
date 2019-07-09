@@ -15,7 +15,7 @@
     <string name="agregarfactura">Agregar Factura</string>
     <string name="fecha">Fecha</string>
     <string name="numeroletra">N° de Letras</string>
-    <string name="confirmar">Escriba CONFIRMAR para confirmar el pago</string>
+    <string name="confirmar">Confirmar</string>
     <string name="id">DNI o RUC</string>
     <string name="pagar">Pagar</string>
     <string name="editar">Editar</string>
@@ -38,4 +38,13 @@
     <string name="descripcion">Descripcion</string>
     <string name="operacion">Operacion</string>
     <string name="cliente">Cliente</string>
+    <string name="notifications_admin_channel_name">oreoplus</string>
+    <string name="notifications_admin_channel_description">oreoplus1</string>
+    <string name="activo">Activo</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="codigo">Codigo</string>
+    <string name="codverante">Ingrese el codigo de verificacion anterior</string>
+    <string name="codvernew">Ingrese el nuevo codigo de verificacion</string>
+    <string name="codvernew1">Vuelva a ingresar el codigo de verificacion</string>
 </resources>

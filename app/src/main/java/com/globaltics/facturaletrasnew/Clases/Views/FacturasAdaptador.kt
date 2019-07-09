@@ -3,10 +3,10 @@ package com.globaltics.facturaletrasnew.Clases.Views
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.v4.app.FragmentActivity
-import android.support.v7.widget.CardView
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentActivity
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +19,7 @@ import com.globaltics.facturaletrasnew.Clases.Modelos.Letras
 import com.globaltics.facturaletrasnew.Fragments.DetallesFacturaFragment
 import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.AddFacturaDF
 import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.AddLetraDF
+import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.ElimFactLetrDF
 import com.globaltics.facturaletrasnew.Fragments.DialogsFragment.PagoLetrasDF
 import com.globaltics.facturaletrasnew.Fragments.FacturasFragment
 import com.globaltics.facturaletrasnew.R
@@ -65,7 +66,7 @@ class FacturasAdaptador(
                 popupMenu.menuInflater.inflate(R.menu.menu_facturas, popupMenu.menu)
                 popupMenu.setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
-                        R.id.editar -> {
+                        /*R.id.editar -> {
                             val dialog = AddFacturaDF()
                             dialog.setTargetFragment(facturasFragment, 1)
                             val ft = (context as FragmentActivity).supportFragmentManager.beginTransaction()
@@ -79,6 +80,17 @@ class FacturasAdaptador(
                             dialog.arguments = bundle
                             dialog.isCancelable = false
                             dialog.show(ft, "Actualizar Factura")
+                        }*/
+                        R.id.eliminar -> {
+                            val dialog = ElimFactLetrDF()
+                            dialog.setTargetFragment(facturasFragment, 1)
+                            val ft = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                            bundle.putString("condicion", "elim_fact")
+                            bundle.putString("id", facturasList[position].factura)
+                            bundle.putString("factletr", facturasList[position].empresa)
+                            dialog.arguments = bundle
+                            dialog.isCancelable = false
+                            dialog.show(ft, "Eliminar Factura")
                         }
                     }
                     false
@@ -95,6 +107,7 @@ class FacturasAdaptador(
         val item = v.findViewById(R.id.item) as ConstraintLayout
         val factura = v.findViewById(R.id.factura) as TextView
         val empresa = v.findViewById(R.id.empresa) as TextView
+        val cliente = v.findViewById(R.id.cliente) as TextView
         val nletras = v.findViewById(R.id.nletras) as TextView
         val monto = v.findViewById(R.id.monto) as TextView
         val banco = v.findViewById(R.id.banco) as TextView
@@ -108,11 +121,12 @@ class FacturasAdaptador(
         fun bindItems(facturas: Facturas) {
             if (sub_item.visibility == View.GONE) {
                 sub_item.visibility = View.VISIBLE
-            } else  if (sub_item.visibility == View.VISIBLE){
+            } else if (sub_item.visibility == View.VISIBLE) {
                 sub_item.visibility = View.GONE
             }
             factura.text = facturas.factura
             empresa.text = facturas.empresa
+            cliente.text = facturas.cliente
             nletras.text = facturas.numero.toString()
             monto.text = facturas.monto
             banco.text = facturas.banco

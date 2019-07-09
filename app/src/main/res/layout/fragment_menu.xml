@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             tools:context=".Fragments.MenuFragment">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".Fragments.MenuFragment"
+                                                   android:id="@+id/constraintLayout3">
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    >
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -44,7 +46,7 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/letras" android:layout_marginStart="8dp"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@+id/registro"/>
             <ImageButton
                     android:src="@drawable/registro"
@@ -52,21 +54,12 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/registro" android:background="#00FFFFFF"
                     tools:visibility="gone"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/reportes" android:layout_marginStart="8dp"
+                    android:layout_marginStart="8dp"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/salir"/>
-            <ImageButton
-                    android:src="@drawable/salir"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/salir" android:background="#00FFFFFF"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/registro" android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintHorizontal_bias="0.502" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/reportes"
+                    app:layout_constraintBottom_toTopOf="@+id/empreclie"/>
             <ImageButton
                     android:src="@drawable/letras"
                     android:layout_width="wrap_content"
@@ -74,8 +67,41 @@
                     android:id="@+id/letras" android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/facturas" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/reportes" android:background="#FFFFFF"/>
-        </android.support.constraint.ConstraintLayout>
+                    android:layout_marginEnd="8dp"
+                    android:background="#FFFFFF"
+                    app:layout_constraintBottom_toTopOf="@+id/reportes"/>
+            <ImageButton
+                    android:src="@drawable/emprclie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/empreclie"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:background="#FFFFFF"
+                    tools:visibility="gone"
+                    app:layout_constraintHorizontal_bias="0.502"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/registro"
+                    app:layout_constraintBottom_toTopOf="@+id/actcod"/>
+            <ImageButton
+                    android:src="@drawable/actcod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/actcod" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/empreclie"
+                    app:layout_constraintBottom_toTopOf="@+id/salir" tools:visibility="gone"/>
+            <ImageButton
+                    android:src="@drawable/salir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/salir" android:background="#00FFFFFF"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.502"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/actcod"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

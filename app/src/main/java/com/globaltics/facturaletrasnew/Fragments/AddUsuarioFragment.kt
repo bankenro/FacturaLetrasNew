@@ -5,7 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,18 +16,14 @@ import com.android.volley.toolbox.StringRequest
 import com.globaltics.facturaletrasnew.Clases.EndPoints
 import com.globaltics.facturaletrasnew.Clases.Modelos.Tipos
 import com.globaltics.facturaletrasnew.Clases.Views.Spinners.TiposAdaptador
-import com.globaltics.facturaletrasnew.Clases.VolleySingleton
 
-import com.globaltics.facturaletrasnew.R
 import dmax.dialog.SpotsDialog
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.HashMap
+import com.globaltics.facturaletrasnew.Clases.VolleySingleton
+import com.globaltics.facturaletrasnew.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.

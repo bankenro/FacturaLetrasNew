@@ -1,7 +1,7 @@
 package com.globaltics.facturaletrasnew.Clases.Views
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import java.util.*
 class ReportEmpresaAdaptador(
     val empresasList: ArrayList<Empresas>,
     val context: Context
-) : RecyclerView.Adapter<ReportEmpresaAdaptador.ViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<ReportEmpresaAdaptador.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_report_empresa, parent, false)
@@ -28,7 +28,7 @@ class ReportEmpresaAdaptador(
         holder.bindItems(empresasList[position])
     }
 
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+    class ViewHolder(v: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(v) {
         val empresa = v.findViewById(R.id.empresa) as TextView
         val nfactura = v.findViewById(R.id.nfactura) as TextView
         val monto = v.findViewById(R.id.monto) as TextView

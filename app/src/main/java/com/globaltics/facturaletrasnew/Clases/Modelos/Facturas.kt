@@ -3,6 +3,7 @@ package com.globaltics.facturaletrasnew.Clases.Modelos
 class Facturas(
     val factura: String,
     val empresa: String,
+    val cliente: String,
     val monto:String,
     val pagados: Int,
     val debidos: Int,

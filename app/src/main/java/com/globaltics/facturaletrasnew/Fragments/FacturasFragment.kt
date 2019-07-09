@@ -4,10 +4,10 @@ package com.globaltics.facturaletrasnew.Fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +60,12 @@ class FacturasFragment : Fragment(), ActualizarRecyclerViews {
         facturas?.setHasFixedSize(true)
         facturas?.itemAnimator = null
         facturas?.layoutManager = LinearLayoutManager(activity)
-        facturas?.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        facturas?.addItemDecoration(
+            DividerItemDecoration(
+                activity,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
         LlenarFacturas()
 
@@ -83,6 +88,7 @@ class FacturasFragment : Fragment(), ActualizarRecyclerViews {
                             val facturas = Facturas(
                                 objectArtist.getString("factura"),
                                 objectArtist.getString("empresa"),
+                                objectArtist.getString("cliente"),
                                 objectArtist.getString("monto"),
                                 objectArtist.getInt("pagados"),
                                 objectArtist.getInt("debidos"),

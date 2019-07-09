@@ -6,7 +6,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,9 @@ import android.view.ViewGroup
 import android.widget.*
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
+import com.android.volley.toolbox.HurlStack
 import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.globaltics.facturaletrasnew.Clases.ActualizarRecyclerViews
 import com.globaltics.facturaletrasnew.Clases.EndPoints
 import com.globaltics.facturaletrasnew.Clases.Modelos.Tipos
@@ -28,7 +30,6 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.log
 
 
 class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -43,7 +44,7 @@ class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSel
     private var accion: String? = null
     private var factura: String? = null
     private var preferences: SharedPreferences? = null
-    private var usuario: Int? = null
+    private var usuario: Int? = 0
     private var ContNume: Int? = 0
     private var monedas: Spinner? = null
     private var moneda: TextView? = null
@@ -53,7 +54,7 @@ class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSel
     private var textConteo: TextView? = null
     private var conteo: TextView? = null
     private var monto0: TextView? = null
-    private var ContMont: Int? = 0
+    private var ContMont: Double? = 0.00
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,7 +91,7 @@ class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSel
             factura = arguments?.get("id").toString()
             accion = arguments?.get("accion").toString()
             ContNume = arguments?.get("numero").toString().toInt()
-            ContMont = arguments?.get("monto").toString().toDouble().toInt()
+            ContMont = arguments?.get("monto").toString().toDouble()
             monto0?.text = ContMont.toString()
             conteo?.text = ContNume.toString()
             if (Objects.equals(accion, "act_letra")) {
@@ -119,7 +120,7 @@ class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSel
         val dialog = dialog
         if (dialog != null) {
             val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.WRAP_CONTENT
             dialog.window!!.setLayout(width, height)
         }
     }
@@ -156,8 +157,9 @@ class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSel
         val nombreStr = letra?.text.toString()
         if (montoStr.isNotEmpty() && nombreStr.isNotEmpty() && mid != null) {
             if (ContNume!! <= 0) {
-                if (ContMont!! <= montoStr.toInt() && ContMont == 0) {
-                    Toast.makeText(activity, "El monto ingresado es mucho mayor al solicitado", Toast.LENGTH_SHORT).show()
+                if (ContMont!! <= montoStr.toDouble() && ContMont!! <= 0.00) {
+                    Toast.makeText(activity, "El monto ingresado es mucho mayor al solicitado", Toast.LENGTH_SHORT)
+                        .show()
                 } else {
                     dialog.dismiss()
                 }
@@ -229,13 +231,13 @@ class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSel
         val request = object : StringRequest(
             Method.POST, EndPoints.URL_ROOT,
             Response.Listener { response ->
-                Log.e("Error",response)
+                //Log.e("Error", response)
                 try {
                     val obj = JSONObject(response)
                     if (!obj.getBoolean("error")) {
                         dialogA.dismiss()
                         ContNume = ContNume?.minus(1)
-                        ContMont = ContMont?.minus(montoStr.toInt())
+                        ContMont = ContMont?.minus(montoStr.toDouble())
                         conteo?.text = ContNume.toString()
                         monto0?.text = ContMont.toString()
                         letra?.setText("")
@@ -280,7 +282,7 @@ class AddLetraDF : DialogFragment(), View.OnClickListener, AdapterView.OnItemSel
     }
 
     private fun ComprobarCeros() {
-        if (ContMont==0 && ContNume==0)
+        if (ContMont!! <= 0.00 && ContNume!! <= 0)
             dialog.dismiss()
     }
 }
